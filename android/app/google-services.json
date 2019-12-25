@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1093290896588",
+    "firebase_url": "https://gasgasapp-fc528.firebaseio.com",
+    "project_id": "gasgasapp-fc528",
+    "storage_bucket": "gasgasapp-fc528.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093290896588:android:a4d048b2a1f67c54fe2669",
+        "android_client_info": {
+          "package_name": "hcmute.gasgasapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093290896588-fg6a2mumm0pcf8levshq370dtlhv7keu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hcmute.gasgasapp",
+            "certificate_hash": "718939a0514ddec3c08aa8b59c354b8080129a47"
+          }
+        },
+        {
+          "client_id": "1093290896588-7pa6r4i6h1qevt5t5ttctjn9hg4c4qe3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBekXHrN6CqZ3MhtWTcJ9d9T_edC1ehB8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093290896588-7pa6r4i6h1qevt5t5ttctjn9hg4c4qe3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
