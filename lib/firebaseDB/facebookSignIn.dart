@@ -9,7 +9,6 @@ class AuthFb implements BaseAuthFb {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
-  // ignore: missing_return
   Future<FirebaseUser> facebookSignIn() async {
     final FacebookLogin facebookLogin = FacebookLogin();
     final facebookLoginResult = await facebookLogin.logIn(['email']);
@@ -18,12 +17,14 @@ class AuthFb implements BaseAuthFb {
       final AuthCredential credential = FacebookAuthProvider.getCredential(
           accessToken: facebookLoginResult.accessToken.token);
       try {
-        FirebaseUser user = await firebaseAuth.signInWithCredential(credential);
+        AuthResult authResult = await firebaseAuth.signInWithCredential(credential);
+        FirebaseUser user = authResult.user;
         return user;
       } catch (e) {
         print(e.toString());
         return null;
       }
     }
+    return null;
   }
 }

@@ -27,6 +27,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
   SharedPreferences preferences;
   bool isLoading = false;
   bool isLoggedIn = false;
+  BuildContext dialogContext;
 
   @override
   void initState() {
@@ -71,10 +72,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     animationController.forward();
-    final width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final width = MediaQuery.of(context).size.width;
 
     return AnimatedBuilder(
       animation: animationController,
@@ -151,7 +149,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                               // return "";
                             },
                             onSaved: (val) {
-                              _emailController.text = val;
+                              _nameController.text = val;
                             },
                             autocorrect: true,
                           ),
@@ -166,8 +164,8 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                                     color: Colors.blueGrey),
                                 hintText: "Email",
                                 labelStyle: TextStyle(
-                                  // color: Colors.white,
-                                ),
+                                    // color: Colors.white,
+                                    ),
                                 labelText: "Email"),
                             // ignore: missing_return
                             validator: (val) {
@@ -270,10 +268,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                               shape: RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(25.0),
                               ),
-                              minWidth: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
+                              minWidth: MediaQuery.of(context).size.width,
                               child: ListTile(
                                 title: Center(
                                   child: Text(
@@ -327,30 +322,33 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
     print("signUp");
     FormState formState = _formKey.currentState;
     if (formState.validate()) {
-      formState.reset();
       _showLoadingIndicator();
       FirebaseUser user = await firebaseAuth.currentUser();
-//      FirebaseUser firebaseUser;
       if (user == null) {
         authEmail
             .emailSignUp(_emailController.text, _passwordController.text)
             .then((user) {
-          // user.sendEmailVerification();
-          // here user.uid triggers an id inside the user which should match id of the user document
-          userManagement.createUser(user.uid.toString(), {
-            'userId': user.uid,
-            'username': _nameController.text.toString(),
-            'email': _emailController.text,
-          });
+          if (user == null) {
+            _dismissLoadingIndicator();
+          } else {
+            formState.reset();
+            // user.sendEmailVerification();
+            // here user.uid triggers an id inside the user which should match id of the user document
+            userManagement.createUser(user.uid.toString(), {
+              'userId': user.uid,
+              'username': _nameController.text.toString(),
+              'email': _emailController.text,
+            });
 
-          // Navigator.of(context)
-          //     .push(MaterialPageRoute(builder: (context) => Login()));
-          // pushAndRemoveUtil makes users to not see the login screen when they press the back button
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => Login()),
-                (Route<dynamic> route) => false,
-          );
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (context) => Login()));
+            // pushAndRemoveUtil makes users to not see the login screen when they press the back button
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => Login()),
+              (Route<dynamic> route) => false,
+            );
+          }
         });
       }
     }
@@ -361,6 +359,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
       context: context,
       barrierDismissible: false,
       builder: (context) {
+        dialogContext = context;
         return AlertDialog(
           content: Row(
             children: <Widget>[
@@ -374,5 +373,9 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
         );
       },
     );
+  }
+
+  _dismissLoadingIndicator() {
+    Navigator.pop(dialogContext);
   }
 }

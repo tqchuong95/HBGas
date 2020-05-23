@@ -387,7 +387,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => HomePage()),
-                            (Route<dynamic> route) => false,
+                            (Route<dynamic> route) => true,
                           );
                         }
                       },
@@ -436,7 +436,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(builder: (context) => HomePage()),
-                            (Route<dynamic> route) => false,
+                            (Route<dynamic> route) => true,
                           );
                         }
                       },

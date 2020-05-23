@@ -61,6 +61,8 @@ class _FavoritesState extends State<Favorites> {
                             setState(() {
                               // liked = !liked;
                               Firestore.instance
+                                  .collection(userID.uid)
+                                  .document('data')
                                   .collection("favorites")
                                   .document(document.documentID)
                                   .delete();

@@ -20,7 +20,8 @@ class Auth implements BaseAuth {
         accessToken: googleSignInAuthentication.accessToken);
 
     try {
-      FirebaseUser user = await firebaseAuth.signInWithCredential(credential);
+      AuthResult authResult = await firebaseAuth.signInWithCredential(credential);
+      FirebaseUser user = authResult.user;
       return user;
     } catch (e) {
       print(e.toString());

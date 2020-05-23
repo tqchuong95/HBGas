@@ -59,9 +59,11 @@ class ConfirmOrderPage extends StatelessWidget {
             children: <Widget>[
               Text(
                 "Tổng tiền: ",
+                // ignore: deprecated_member_use
                 style: Theme.of(context).textTheme.title,
               ),
               Text("${totalPrice + delivery} VND",
+                  // ignore: deprecated_member_use
                   style: Theme.of(context).textTheme.title),
             ],
           ),

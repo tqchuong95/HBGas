@@ -1,13 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SimilarProducts extends StatefulWidget {
+  final productID;
+
+  SimilarProducts({this.productID});
+
   @override
-  _SimilarProductsState createState() => _SimilarProductsState();
+  _SimilarProductsState createState() =>
+      _SimilarProductsState();
 }
 
 class _SimilarProductsState extends State<SimilarProducts> {
+  FirebaseUser userID;
   bool liked1 = true;
   bool liked2 = true;
   bool liked3 = true;
@@ -15,7 +22,33 @@ class _SimilarProductsState extends State<SimilarProducts> {
   bool liked5 = true;
   TextEditingController _controllerText = TextEditingController();
   String rateText;
-  String rateStar;
+  int rateStar;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentUser();
+  }
+
+  void _loadCurrentUser() {
+    FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+      setState(() {
+        // call setState to rebuild the view
+        this.userID = user;
+      });
+    });
+  }
+
+  String userName() {
+    if (userID != null) {
+      if (userID.displayName == null) {
+        return userID.email.replaceAll('@gmail.com', '');
+      }
+      return userID.displayName;
+    } else {
+      return "";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +62,7 @@ class _SimilarProductsState extends State<SimilarProducts> {
               children: <Widget>[
                 IconButton(
                   color: liked1 ? Colors.yellowAccent : Colors.grey,
-                  icon: liked1
-                      ? Icon(Icons.star)
-                      : Icon(Icons.star_border),
+                  icon: liked1 ? Icon(Icons.star) : Icon(Icons.star_border),
                   onPressed: () async {
                     setState(() {
                       if (liked1) {
@@ -51,9 +82,7 @@ class _SimilarProductsState extends State<SimilarProducts> {
                 ),
                 IconButton(
                   color: liked2 ? Colors.yellowAccent : Colors.grey,
-                  icon: liked2
-                      ? Icon(Icons.star)
-                      : Icon(Icons.star_border),
+                  icon: liked2 ? Icon(Icons.star) : Icon(Icons.star_border),
                   onPressed: () async {
                     setState(() {
                       if (liked2) {
@@ -73,9 +102,7 @@ class _SimilarProductsState extends State<SimilarProducts> {
                 ),
                 IconButton(
                   color: liked3 ? Colors.yellowAccent : Colors.grey,
-                  icon: liked3
-                      ? Icon(Icons.star)
-                      : Icon(Icons.star_border),
+                  icon: liked3 ? Icon(Icons.star) : Icon(Icons.star_border),
                   onPressed: () async {
                     setState(() {
                       if (liked3) {
@@ -95,9 +122,7 @@ class _SimilarProductsState extends State<SimilarProducts> {
                 ),
                 IconButton(
                   color: liked4 ? Colors.yellowAccent : Colors.grey,
-                  icon: liked4
-                      ? Icon(Icons.star)
-                      : Icon(Icons.star_border),
+                  icon: liked4 ? Icon(Icons.star) : Icon(Icons.star_border),
                   onPressed: () async {
                     setState(() {
                       if (liked4) {
@@ -117,15 +142,12 @@ class _SimilarProductsState extends State<SimilarProducts> {
                 ),
                 IconButton(
                   color: liked5 ? Colors.yellowAccent : Colors.grey,
-                  icon: liked5
-                      ? Icon(Icons.star)
-                      : Icon(Icons.star_border),
+                  icon: liked5 ? Icon(Icons.star) : Icon(Icons.star_border),
                   onPressed: () async {
                     setState(() {
-                      if(liked5) {
+                      if (liked5) {
                         liked5 = !liked5;
-                      }
-                      else{
+                      } else {
                         liked5 = !liked5;
                         liked4 = true;
                         liked3 = true;
@@ -176,23 +198,34 @@ class _SimilarProductsState extends State<SimilarProducts> {
               child: Text("Gửi"),
               onPressed: () async {
                 setState(() {
-                  if(liked1 && liked2 && liked3 && liked4 && liked5)
-                    rateStar = '5';
-                  else if(liked1 && liked2 && liked3 && liked4)
-                    rateStar = '4';
-                  else if(liked1 && liked2 && liked3)
-                    rateStar = '3';
-                  else if(liked1 && liked2)
-                    rateStar = '2';
-                  else if(liked1)
-                    rateStar = '1';
+                  if (liked1 && liked2 && liked3 && liked4 && liked5)
+                    rateStar = 5;
+                  else if (liked1 && liked2 && liked3 && liked4)
+                    rateStar = 4;
+                  else if (liked1 && liked2 && liked3)
+                    rateStar = 3;
+                  else if (liked1 && liked2)
+                    rateStar = 2;
+                  else if (liked1)
+                    rateStar = 1;
                   else
-                    rateStar = '0';
+                    rateStar = 0;
+
                   Firestore.instance
-                      .collection("rate")
+                      .collection("allrate")
                       .add({
+                    'id': widget.productID,
                     'star': rateStar,
                     'comment': rateText,
+                    'username': "${userName()}",
+                  });
+                  Firestore.instance
+                      .collection(userID.uid)
+                      .document("rate")
+                      .collection("isvoted")
+                      .add({
+                    'id': widget.productID,
+                    'isvoted': true,
                   });
                 });
                 _controllerText.clear();

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:gasgasapp/blocs/themeChanger.dart';
 import 'package:gasgasapp/screens/about.dart';
@@ -89,6 +90,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // Which is used to listen to the nearest change and provides the current state and rebuilds the widget.
     ThemeChanger theme = Provider.of<ThemeChanger>(context);
+
+    Future<Login> _signOut() async {
+      try {
+        await FirebaseAuth.instance.signOut();
+        Fluttertoast.showToast(
+          msg: "Đăng xuất thành công.",
+          toastLength: Toast.LENGTH_LONG,
+        );
+        return new Login();
+      } catch (e) {
+        print(e);
+        return null;
+      }
+    }
 
     return Scaffold(
       // Drawer Start
@@ -197,10 +212,17 @@ class _HomePageState extends State<HomePage> {
             ),
             InkWell(
               onTap: () {
-                FirebaseAuth.instance.signOut().then((value) {
-                  Navigator.of(context).pop();
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Login()));
+                _signOut().then((value) {
+                  if (value == null) {
+                    Fluttertoast.showToast(
+                      msg: "Đăng xuất không thành công.",
+                      toastLength: Toast.LENGTH_LONG,
+                    );
+                  } else {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => value));
+                  }
                 });
               },
               child: _showList(
@@ -378,4 +400,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Contact extends StatelessWidget {
   @override
@@ -134,31 +133,31 @@ class Contact extends StatelessWidget {
       ),
     );
   }
-
-  void _launchTwitter() async {
-    const url = 'https://twitter.com/_iamramu';
-    if (await canLaunch(Uri.encodeFull(url))) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  void _launchgithub() async {
-    const url = 'https://github.com/bugudiramu';
-    if (await canLaunch(Uri.encodeFull(url))) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  void _launchlinkedIn() async {
-    const url = 'https://www.linkedin.com/in/bugudi-ramu-2a5a5a161/';
-    if (await canLaunch(Uri.encodeFull(url))) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+//
+//  void _launchTwitter() async {
+//    const url = 'https://twitter.com/_iamramu';
+//    if (await canLaunch(Uri.encodeFull(url))) {
+//      await launch(url);
+//    } else {
+//      throw 'Could not launch $url';
+//    }
+//  }
+//
+//  void _launchgithub() async {
+//    const url = 'https://github.com/bugudiramu';
+//    if (await canLaunch(Uri.encodeFull(url))) {
+//      await launch(url);
+//    } else {
+//      throw 'Could not launch $url';
+//    }
+//  }
+//
+//  void _launchlinkedIn() async {
+//    const url = 'https://www.linkedin.com/in/bugudi-ramu-2a5a5a161/';
+//    if (await canLaunch(Uri.encodeFull(url))) {
+//      await launch(url);
+//    } else {
+//      throw 'Could not launch $url';
+//    }
+//  }
 }

@@ -2,10 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gasgasapp/ui/similar_rate.dart';
 import 'package:gasgasapp/ui/cart_product_details.dart';
 import 'package:gasgasapp/ui/similar_products.dart';
 
 class ProductDetails extends StatefulWidget {
+  final productID;
   final productDetailsName;
   final productDetailsImage;
   final productDetailsoldPrice;
@@ -15,7 +17,8 @@ class ProductDetails extends StatefulWidget {
   final FirebaseUser userID;
 
   ProductDetails(
-      {this.productDetailsName,
+      {this.productID,
+      this.productDetailsName,
       this.productDetailsImage,
       this.productDetailsoldPrice,
       this.productDetailsPrice,
@@ -32,6 +35,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   String id;
   FirebaseUser userID;
   int _currentIndex = 0;
+  Future<bool> isRate;
 
   _ProductDetailsState({this.userID});
 
@@ -46,6 +50,40 @@ class _ProductDetailsState extends State<ProductDetails> {
       tmp = snapshot.documents.length;
     });
     return tmp;
+  }
+
+  Future<bool> isVote(FirebaseUser userID) async {
+    bool _isRate = false;
+    await Firestore.instance
+        .collection(userID.uid)
+        .document("rate")
+        .collection('isvoted')
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      if (snapshot != null) {
+        snapshot.documents.forEach((f) {
+          if (f.data['id'].compareTo(widget.productID) == 0)
+            _isRate = f.data['isvoted'];
+        });
+      }
+      print(_isRate);
+    });
+    return _isRate;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      isRate = isVote(userID);
+    });
+  }
+
+  Future<void> refreshRate() {
+    setState(() {
+      isRate = isVote(userID);
+    });
+    return isRate;
   }
 
   @override
@@ -102,8 +140,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     )),
                               ],
                             ));
-                      } else
+                      } else {
                         return Container();
+                      }
                     }
                   },
                 ),
@@ -262,9 +301,50 @@ class _ProductDetailsState extends State<ProductDetails> {
             padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
           ),
           Container(
-            height: 400.0,
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: SimilarProducts(),
+            child: FutureBuilder<bool>(
+              future: isRate,
+              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container();
+                } else {
+                  return RefreshIndicator(
+                    child: (!snapshot.data)
+                        ? Column(
+                            children: <Widget>[
+                              Container(
+                                height: 400.0,
+                                padding: const EdgeInsets.only(bottom: 20.0),
+                                child: SimilarProducts(
+                                  productID: widget.productID,
+                                ),
+                              ),
+                              Text(
+                                "Những đánh giá khác cho sản phẩm",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0),
+                              ),
+                              Container(
+                                height: 400.0,
+                                padding: const EdgeInsets.only(bottom: 20.0),
+                                child: SimilarRate(
+                                  productID: widget.productID,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(
+                            height: 400.0,
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: SimilarRate(
+                              productID: widget.productID,
+                            ),
+                          ),
+                      onRefresh: refreshRate,
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),

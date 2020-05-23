@@ -19,7 +19,7 @@ class _RecentProductsState extends State<RecentProducts> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final String dropValue;
 
-  _RecentProductsState({this.dropValue});
+  _RecentProductsState({this.userID, this.dropValue});
 
   @override
   void initState() {
@@ -57,6 +57,7 @@ class _RecentProductsState extends State<RecentProducts> {
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ProductDetails(
+                      productID: _products.getListProducts(dropValue)[i].productID,
                       productDetailsName: _products.getListProducts(dropValue)[i].productDetailsName,
                       productDetailsImage: _products.getListProducts(dropValue)[i].productDetailsImage,
                       productDetailsoldPrice: _products.getListProducts(dropValue)[i].productDetailsoldPrice,

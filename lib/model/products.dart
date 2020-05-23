@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:gasgasapp/screens/product_detail.dart';
 
 class Products {
   var all = [
     {
+      'id' : 'b0001',
       'name': 'Bình gas vàng',
       'image': 'images/products/bottle/gas-vang-lon.jpg',
       'oldPrice': 320000,
@@ -13,6 +13,7 @@ class Products {
       'classify': 'bottle'
     },
     {
+      'id' : 'b0002',
       'name': 'Bình gas xanh',
       'image': 'images/products/bottle/binh-minh-xanh-lon.jpg',
       'oldPrice': 380000,
@@ -22,6 +23,7 @@ class Products {
       'classify': 'bottle'
     },
     {
+      'id' : 'b0003',
       'name': 'Bình gas gia đình đỏ',
       'image': 'images/products/bottle/gd-do-lon.jpg',
       'oldPrice': 280000,
@@ -31,6 +33,7 @@ class Products {
       'classify': 'bottle'
     },
     {
+      'id' : 'b0004',
       'name': 'Bình gas gia đình xám',
       'image': 'images/products/bottle/gd-xam-lon.jpg',
       'oldPrice': 420000,
@@ -40,6 +43,7 @@ class Products {
       'classify': 'bottle'
     },
     {
+      'id' : 'b0005',
       'name': 'Bình gas gia đình xanh đậm',
       'image': 'images/products/bottle/gd-xanh-lon.jpg',
       'oldPrice': 540000,
@@ -49,6 +53,7 @@ class Products {
       'classify': 'bottle'
     },
     {
+      'id' : 'b0006',
       'name': 'Bình gas gia đình vàng',
       'image': 'images/products/bottle/gd-vang-lon.jpg',
       'oldPrice': 620000,
@@ -58,6 +63,7 @@ class Products {
       'classify': 'bottle'
     },
     {
+      'id' : 'b0007',
       'name': 'Bình gas công nghiệp',
       'image': 'images/products/bottle/tap-hop-cac-binh-gass-lon.png',
       'oldPrice': 1500000,
@@ -66,6 +72,7 @@ class Products {
       'classify': 'bottle'
     },
     {
+      'id' : 'b0008',
       'name': 'Bình gas công nghiệp vàng',
       'image': 'images/products/bottle/binh-minh-gas-lon.jpg',
       'oldPrice': 2500000,
@@ -75,6 +82,7 @@ class Products {
       'classify': 'bottle'
     },
     {
+      'id' : 'x0001',
       'name': 'Thiết bị cảnh báo rỏ rỉ gas',
       'image': 'images/products/accessories/bao-chay-lon.jpg',
       'oldPrice': 300000,
@@ -84,6 +92,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0002',
       'name': 'Bộ van dây Bluestar',
       'image': 'images/products/accessories/bo-van-day-bluestar.jpg',
       'oldPrice': 159000,
@@ -93,6 +102,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0003',
       'name': 'Dây dẫn gas lỗi thép',
       'image': 'images/products/accessories/day-dan-gas-loi-thep.jpg',
       'oldPrice': 150000,
@@ -102,6 +112,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0004',
       'name': 'Dây gas TAKARA',
       'image': 'images/products/accessories/day-ga-takara.jpg',
       'oldPrice': 200000,
@@ -111,6 +122,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0005',
       'name': 'Van điều áp bình đỏ',
       'image': 'images/products/accessories/hinh-val-do.jpg',
       'oldPrice': 400000,
@@ -120,6 +132,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0006',
       'name': 'Kiềng bếp PALOMA',
       'image': 'images/products/accessories/kieng-bep-paloma.jpg',
       'oldPrice': 220000,
@@ -129,6 +142,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0007',
       'name': 'Kiềng gang bếp 3 lò',
       'image': 'images/products/accessories/kieng-gang-bep-sogo.jpg',
       'oldPrice': 130000,
@@ -138,6 +152,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0008',
       'name': 'Mồi lửa bếp gas',
       'image': 'images/products/accessories/moi-lua-bep.jpg',
       'oldPrice': 60000,
@@ -147,6 +162,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0009',
       'name': 'Van điều áp',
       'image': 'images/products/accessories/shell-gas-lon.jpg',
       'oldPrice': 300000,
@@ -156,6 +172,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0010',
       'name': 'Súng mồi lửa bếp lò',
       'image': 'images/products/accessories/sung-moi-lua-bep.jpg',
       'oldPrice': 70000,
@@ -165,6 +182,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0011',
       'name': 'Van cao áp Namilux',
       'image': 'images/products/accessories/van-cao-ap-namilux.jpg',
       'oldPrice': 350000,
@@ -174,6 +192,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0012',
       'name': 'Van điều áp Namilux',
       'image': 'images/products/accessories/van-dieu-ap-namilux.jpg',
       'oldPrice': 215000,
@@ -183,6 +202,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'x0013',
       'name': 'Van cao áp (Van khè)',
       'image': 'images/products/accessories/van-khe-lon.jpg',
       'oldPrice': 1500000,
@@ -191,6 +211,7 @@ class Products {
       'classify': 'accessories'
     },
     {
+      'id' : 'g0001',
       'name': 'Bếp gas âm Rinnai',
       'image': 'images/products/stove/bep-gas-am-rinnai.jpg',
       'oldPrice': 2850000,
@@ -199,6 +220,7 @@ class Products {
       'classify': 'stove'
     },
     {
+      'id' : 'g0002',
       'name': 'Bếp gas âm Sakura',
       'image': 'images/products/stove/bep-gas-am-sakura.jpg',
       'oldPrice': 3290000,
@@ -207,6 +229,7 @@ class Products {
       'classify': 'stove'
     },
     {
+      'id' : 'g0003',
       'name': 'Bếp gas âm Sunhouse',
       'image': 'images/products/stove/bep-gas-am-sunhouse.jpg',
       'oldPrice': 3290000,
@@ -215,6 +238,7 @@ class Products {
       'classify': 'stove'
     },
     {
+      'id' : 'g0004',
       'name': 'Bếp gas dương Electrolux',
       'image': 'images/products/stove/bep-gas-duong-electrolux.jpg',
       'oldPrice': 2499000,
@@ -223,6 +247,7 @@ class Products {
       'classify': 'stove'
     },
     {
+      'id' : 'g0005',
       'name': 'Bếp gas Paloma',
       'image': 'images/products/stove/bep-gas-paloma.jpg',
       'oldPrice': 5680000,
@@ -237,6 +262,7 @@ class Products {
   Products() {
     for (int i = 0; i < all.length; i++) {
       allList.add(ProductDetails(
+        productID: all[i]['id'],
         productDetailsName: all[i]['name'],
         productDetailsImage: all[i]['image'],
         productDetailsoldPrice: all[i]['oldPrice'],
@@ -246,6 +272,7 @@ class Products {
       ));
       if (all[i]['classify'] == 'bottle')
         bottle.add(ProductDetails(
+          productID: all[i]['id'],
           productDetailsName: all[i]['name'],
           productDetailsImage: all[i]['image'],
           productDetailsoldPrice: all[i]['oldPrice'],
@@ -256,6 +283,7 @@ class Products {
       else {
         if (all[i]['classify'] == 'stove')
           stove.add(ProductDetails(
+            productID: all[i]['id'],
             productDetailsName: all[i]['name'],
             productDetailsImage: all[i]['image'],
             productDetailsoldPrice: all[i]['oldPrice'],
@@ -265,6 +293,7 @@ class Products {
           ));
         else
           accessories.add(ProductDetails(
+            productID: all[i]['id'],
             productDetailsName: all[i]['name'],
             productDetailsImage: all[i]['image'],
             productDetailsoldPrice: all[i]['oldPrice'],

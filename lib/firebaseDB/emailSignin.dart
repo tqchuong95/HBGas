@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 abstract class BaseAuthEmail {
   Future<FirebaseUser> emailSignIn(String email, String password);
@@ -10,24 +12,34 @@ class AuthEmail implements BaseAuthEmail {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
+  // ignore: missing_return
   Future<FirebaseUser> emailSignUp(email, password) async {
     try {
-      FirebaseUser user = await firebaseAuth.createUserWithEmailAndPassword(
+      AuthResult authResult = await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      FirebaseUser user = authResult.user;
       assert(user != null);
       assert(await user.getIdToken() != null);
       return user;
-    } catch (e) {
-      print(e.toString());
-      return null;
+    } catch (signUpError) {
+      if(signUpError is PlatformException) {
+        if(signUpError.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
+          Fluttertoast.showToast(
+            msg: "Tài khoản đã được sử dụng.",
+            toastLength: Toast.LENGTH_LONG,
+          );
+          return null;
+        }
+      }
     }
   }
 
   @override
   Future<FirebaseUser> emailSignIn(String email, String password) async {
     try {
-      FirebaseUser user = await firebaseAuth.signInWithEmailAndPassword(
+      AuthResult authResult = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      FirebaseUser user = authResult.user;
       assert(user != null);
       assert(await user.getIdToken() != null);
       final FirebaseUser currentUser = await firebaseAuth.currentUser();
