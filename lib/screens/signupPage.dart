@@ -146,7 +146,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                               if (val.isEmpty) {
                                 return "Vui lòng nhập tên tài khoản";
                               }
-                              // return "";
+//                               return "";
                             },
                             onSaved: (val) {
                               _nameController.text = val;
@@ -172,7 +172,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                               if (val.isEmpty) {
                                 return "Vui lòng nhập email";
                               }
-                              // return "";
+//                               return "";
                             },
                             onSaved: (val) {
                               _emailController.text = val;
@@ -209,7 +209,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                               if (val.length < 6) {
                                 return "Mật khẩu ít nhất phải có 6 ký tự";
                               }
-                              // return "";
+//                               return "";
                             },
                             onSaved: (val) {
                               _passwordController.text = val;
@@ -249,7 +249,7 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
                               } else if (_passwordController.text != val) {
                                 return "Mật khẩu không trùng nhau!";
                               }
-                              // return "";
+//                               return "";
                             },
                             onSaved: (val) {
                               _passwordController.text = val;

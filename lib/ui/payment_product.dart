@@ -87,11 +87,11 @@ class ConfirmOrderPage extends StatelessWidget {
                   hintText: "Vui lòng nhập địa chỉ",
                   labelText: "Địa chỉ *",
                 ),
-                // ignore: missing_return
                 validator: (val) {
                   if (val.isEmpty) {
                     return "Vui lòng cung cấp địa chỉ.";
                   }
+                  return "";
                 },
                 onSaved: (val) {
                   _addressController.text = val;
@@ -112,11 +112,11 @@ class ConfirmOrderPage extends StatelessWidget {
                   hintText: "Vui lòng nhập số điện thoại",
                   labelText: "Điện thoại *",
                 ),
-                // ignore: missing_return
                 validator: (val) {
                   if (val.isEmpty) {
                     return "Vui lòng cung cấp số điện thoại.";
                   }
+                  return "";
                 },
                 onSaved: (val) {
                   _phoneController.text = val;
@@ -153,7 +153,8 @@ class ConfirmOrderPage extends StatelessWidget {
             child: RaisedButton(
               color: Color(0xFFB33771),
               onPressed: () {
-                if (_addressController.text != "" && _phoneController.text != "") {
+                if (_addressController.text != "" &&
+                    _phoneController.text != "") {
                   createRecord();
                   Fluttertoast.showToast(msg: 'Bạn đã đặt hàng thành công.');
                   Navigator.of(context).push(
@@ -175,6 +176,38 @@ class ConfirmOrderPage extends StatelessWidget {
   }
 
   void createRecord() async {
+    int numberOrder = 0; // Số lượng đơn hàng đã đặt
+    int amountOfProduct = 0; // Số lượng sản phẩm trong đơn hàng
+    List<String> productId = List<String>();
+    await databaseReference
+        .collection(userID.uid)
+        .document("data")
+        .collection("payment")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      if (snapshot != null) numberOrder = snapshot.documents.length;
+    });
+
+    await databaseReference
+        .collection(userID.uid)
+        .document("data")
+        .collection("cartItems")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      if (snapshot != null) amountOfProduct = snapshot.documents.length;
+    });
+
+    await Firestore.instance
+        .collection(userID.uid)
+        .document("data")
+        .collection("cartItems")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((f) {
+        productId.add(f.data['id']);
+      });
+    });
+
     await databaseReference
         .collection(userID.uid)
         .document("data")
@@ -183,7 +216,23 @@ class ConfirmOrderPage extends StatelessWidget {
       'address': _addressController.text,
       'phone': _phoneController.text,
       'total': totalPrice,
+      'numberId': numberOrder + 1,
+      'orderId' : numberOrder + 1,
+      'status' : 'delivery',
     });
+
+    for (int i = 0; i < amountOfProduct; i++) {
+      await databaseReference
+          .collection(userID.uid)
+          .document("data")
+          .collection("payment")
+          .document("product")
+          .collection("details")
+          .add({
+        'orderId': numberOrder + 1,
+        'product' : productId[i],
+      });
+    }
 
     await databaseReference
         .collection(userID.uid)

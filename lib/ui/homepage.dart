@@ -13,6 +13,7 @@ import 'package:gasgasapp/screens/myAccount.dart';
 import 'package:gasgasapp/screens/settings.dart';
 import 'package:gasgasapp/ui/cart_product_details.dart';
 import 'package:gasgasapp/ui/recent_products.dart';
+import 'package:gasgasapp/screens/oder_managerment.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -163,6 +164,21 @@ class _HomePageState extends State<HomePage> {
               child: _showList(
                 "Tài khoản của tôi",
                 (Icons.account_box),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => OrderManagement(
+                      userID: currentUser,
+                    ),
+                  ),
+                );
+              },
+              child: _showList(
+                "Quản lý đơn hàng",
+                (Icons.storage),
               ),
             ),
             InkWell(

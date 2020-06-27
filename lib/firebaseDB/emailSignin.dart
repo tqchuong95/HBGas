@@ -12,7 +12,6 @@ class AuthEmail implements BaseAuthEmail {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
-  // ignore: missing_return
   Future<FirebaseUser> emailSignUp(email, password) async {
     try {
       AuthResult authResult = await firebaseAuth.createUserWithEmailAndPassword(
@@ -32,6 +31,7 @@ class AuthEmail implements BaseAuthEmail {
         }
       }
     }
+    return null;
   }
 
   @override

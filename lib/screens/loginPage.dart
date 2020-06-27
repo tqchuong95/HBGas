@@ -8,6 +8,7 @@ import 'package:gasgasapp/ui/homepage.dart';
 import 'package:gasgasapp/firebaseDB/userManagement.dart';
 import 'package:gasgasapp/firebaseDB/googleSignIn.dart';
 import 'package:gasgasapp/firebaseDB/facebookSignIn.dart';
+import 'package:gasgasapp/admin/adminPage.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -29,6 +30,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   bool loading = false;
   bool hidePass = true;
   bool isLogedin = false;
+  bool isLogedinAdmin = false;
 
   // Google sign in
   Auth auth = Auth();
@@ -71,12 +73,21 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
     await firebaseAuth.currentUser().then((user) {
       if (user != null) {
-        setState(() => isLogedin = true);
+        if (user.email == "admin@gas.mail.com") {
+          setState(() => isLogedinAdmin = true);
+        } else {
+          setState(() => isLogedin = true);
+        }
       }
     });
     if (isLogedin) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HomePage()));
+    }
+
+    if (isLogedinAdmin) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => AdminPage()));
     }
 
     setState(() {
@@ -190,7 +201,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                               if (val.isEmpty) {
                                 return "Vui lòng nhập email";
                               }
-                              // return "";
+//                              return "";
                             },
                             onSaved: (val) {
                               _emailController.text = val;
@@ -229,7 +240,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                               } else if (val.isEmpty) {
                                 return "Mật khẩu không thể rỗng!";
                               }
-                              // return "";
+//                              return "";
                             },
                             onSaved: (val) {
                               _passwordController.text = val;
@@ -474,18 +485,29 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       _showLoadingIndicator();
 
       try {
+        if (_emailController.text == "admin"){
         await firebaseAuth.signInWithEmailAndPassword(
-            email: _emailController.text, password: _passwordController.text);
+            email: "admin@gas.mail.com", password: _passwordController.text);
 //        Navigator.pushReplacement(
 //            context, MaterialPageRoute(builder: (context) => HomePage()));
         // pushAndRemoveUtil makes users to not see the login screen when they press the back button
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-          (Route<dynamic> route) => true,
-        );
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => AdminPage()),
+                (Route<dynamic> route) => true,
+          );
+        } else {
+          await firebaseAuth.signInWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+                (Route<dynamic> route) => true,
+          );
+        }
       } catch (e) {
         print(e.message);
+        _showLoginError();
       }
     }
   }
@@ -512,6 +534,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               if (val.isEmpty) {
                 return "Vui lòng cung cấp email";
               }
+//              return "";
             },
             onSaved: (val) {
               _emailController.text = val;
@@ -537,11 +560,13 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     showDialog(context: context, builder: (_) => alert);
   }
 
+  BuildContext loginContext;
   _showLoadingIndicator() {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
+        loginContext = context;
         return AlertDialog(
           content: Row(
             children: <Widget>[
@@ -552,6 +577,35 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               Text("Loading!")
             ],
           ),
+        );
+      },
+    );
+  }
+
+  _showLoginError() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Lỗi đăng nhập'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Tài khoản hoặc mật khẩu không đúng.'),
+                Text('Vui lòng thử lại!'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(loginContext).pop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );

@@ -68,12 +68,12 @@ class _SimilarRate extends State<SimilarRate> {
   @override
   Widget build(BuildContext context) {
     ListView listRate = ListView.builder(
-      itemCount: count,
+      itemCount: (count != null ? (count < 5 ? count : 4) : 0),
       itemBuilder: (context, index) {
         return Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: (index < (count != null ? count : 0))
+            child: (index < (count != null ? (count < 4 ? count : 3) : 0))
                 ? Row(
                     children: <Widget>[
                       Expanded(

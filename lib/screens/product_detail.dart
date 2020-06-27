@@ -79,13 +79,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     });
   }
 
-  Future<void> refreshRate() {
-    setState(() {
-      isRate = isVote(userID);
-    });
-    return isRate;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -263,6 +256,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     .document("data")
                     .collection("cartItems")
                     .add({
+                  'id': widget.productID,
                   'name': widget.productDetailsName,
                   'image': widget.productDetailsImage,
                   'price': widget.productDetailsPrice,
@@ -307,41 +301,37 @@ class _ProductDetailsState extends State<ProductDetails> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container();
                 } else {
-                  return RefreshIndicator(
-                    child: (!snapshot.data)
-                        ? Column(
-                            children: <Widget>[
-                              Container(
-                                height: 400.0,
-                                padding: const EdgeInsets.only(bottom: 20.0),
-                                child: SimilarProducts(
-                                  productID: widget.productID,
-                                ),
+                  return (!false)
+                      ? Column(
+                          children: <Widget>[
+                            Container(
+                              height: 400.0,
+                              padding: const EdgeInsets.only(bottom: 20.0),
+                              child: SimilarProducts(
+                                productID: widget.productID,
                               ),
-                              Text(
-                                "Những đánh giá khác cho sản phẩm",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0),
-                              ),
-                              Container(
-                                height: 400.0,
-                                padding: const EdgeInsets.only(bottom: 20.0),
-                                child: SimilarRate(
-                                  productID: widget.productID,
-                                ),
-                              ),
-                            ],
-                          )
-                        : Container(
-                            height: 400.0,
-                            padding: const EdgeInsets.only(bottom: 20.0),
-                            child: SimilarRate(
-                              productID: widget.productID,
                             ),
+                            Text(
+                              "Những đánh giá khác cho sản phẩm",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16.0),
+                            ),
+                            Container(
+                              height: 400.0,
+                              padding: const EdgeInsets.only(bottom: 20.0),
+                              child: SimilarRate(
+                                productID: widget.productID,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: 400.0,
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: SimilarRate(
+                            productID: widget.productID,
                           ),
-                      onRefresh: refreshRate,
-                  );
+                        );
                 }
               },
             ),
