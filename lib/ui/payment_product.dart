@@ -221,6 +221,20 @@ class ConfirmOrderPage extends StatelessWidget {
       'status' : 'delivery',
     });
 
+    await databaseReference
+        .collection("jjXdZHw6PDTYOAKvv7UZLt7LMcf2")
+        .document("data")
+        .collection("payment")
+        .add({
+      'userID': userID.email,
+      'address': _addressController.text,
+      'phone': _phoneController.text,
+      'total': totalPrice,
+      'numberId': numberOrder + 1,
+      'orderId' : numberOrder + 1,
+      'status' : 'delivery',
+    });
+
     for (int i = 0; i < amountOfProduct; i++) {
       await databaseReference
           .collection(userID.uid)
@@ -229,6 +243,17 @@ class ConfirmOrderPage extends StatelessWidget {
           .document("product")
           .collection("details")
           .add({
+        'orderId': numberOrder + 1,
+        'product' : productId[i],
+      });
+      await databaseReference
+          .collection("jjXdZHw6PDTYOAKvv7UZLt7LMcf2")
+          .document("data")
+          .collection("payment")
+          .document("product")
+          .collection("details")
+          .add({
+        'userID': userID.email,
         'orderId': numberOrder + 1,
         'product' : productId[i],
       });

@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:gasgasapp/model/products.dart';
 import 'package:gasgasapp/screens/oder_managerment.dart';
 
-class OrderDetails extends StatefulWidget {
+class OrderDetailsAdmin extends StatefulWidget {
   final FirebaseUser userID;
   final int numberId;
   final int orderId;
   final String status;
 
-  OrderDetails({
+  OrderDetailsAdmin({
     this.userID,
     this.numberId,
     this.orderId,
@@ -19,25 +19,25 @@ class OrderDetails extends StatefulWidget {
   });
 
   @override
-  _OrderDetails createState() => _OrderDetails(
+  _OrderDetailsAdmin createState() => _OrderDetailsAdmin(
       userID: userID, numberId: numberId, orderId: orderId, status: status);
 }
 
-class _OrderDetails extends State<OrderDetails> {
+class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
   int countProduct;
   final FirebaseUser userID;
   final int numberId;
   final int orderId;
   final String status;
+  String email;
   String address;
   String phone;
   double totalPrice;
   List<String> productId = List<String>();
   Products _products = Products();
   DocumentSnapshot _currentDocument;
-  DocumentSnapshot _currentDocumentAdmin;
 
-  _OrderDetails({this.userID, this.numberId, this.orderId, this.status});
+  _OrderDetailsAdmin({this.userID, this.numberId, this.orderId, this.status});
 
   Future<String> getData() async {
     await Firestore.instance
@@ -48,26 +48,11 @@ class _OrderDetails extends State<OrderDetails> {
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
         if (f.data['numberId'] == numberId) {
+          email = f.data['userID'];
           address = f.data['address'];
           phone = f.data['phone'];
           totalPrice = f.data['total'];
           _currentDocument = f;
-        }
-      });
-    });
-
-    await Firestore.instance
-        .collection("jjXdZHw6PDTYOAKvv7UZLt7LMcf2")
-        .document("data")
-        .collection('payment')
-        .getDocuments()
-        .then((QuerySnapshot snapshot) {
-      snapshot.documents.forEach((f) {
-        if (f.data['numberId'] == numberId) {
-//          address = f.data['address'];
-//          phone = f.data['phone'];
-//          totalPrice = f.data['total'];
-          _currentDocumentAdmin = f;
         }
       });
     });
@@ -123,6 +108,20 @@ class _OrderDetails extends State<OrderDetails> {
                                         _products, productId[index])),
                               );
                             }),
+                        ListTile(
+                          leading: Icon(
+                            Icons.account_circle,
+                            color: Colors.yellow[700],
+                          ),
+                          title: Text(
+                            'Email: ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Text("$email"),
+                          ),
+                        ),
                         ListTile(
                           leading: Icon(
                             Icons.location_on,
@@ -196,47 +195,47 @@ class _OrderDetails extends State<OrderDetails> {
                       left: 20.0, right: 20.0, top: 12.0, bottom: 20.0),
                   child: (status == 'delivery')
                       ? MaterialButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0)),
-                          color: Color(0xFFB33771),
-                          minWidth: MediaQuery.of(context).size.width,
-                          textColor: Colors.white,
-                          padding: EdgeInsets.all(15.0),
-                          child: Text(
-                            "Đã nhận/Hủy đơn hàng",
-                            style: _btnStyle(),
-                          ),
-                          onPressed: () async {
-                            _showDialogProduct();
-                          },
-                        )
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0)),
+                    color: Color(0xFFB33771),
+                    minWidth: MediaQuery.of(context).size.width,
+                    textColor: Colors.white,
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
+                      "Đã nhận/Hủy đơn hàng",
+                      style: _btnStyle(),
+                    ),
+                    onPressed: () async {
+//                      _showDialogProduct();
+                    },
+                  )
                       : (status == 'delivered')
-                          ? MaterialButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0)),
-                              color: Color(0xFFA9A9A9),
-                              minWidth: MediaQuery.of(context).size.width,
-                              textColor: Colors.white,
-                              padding: EdgeInsets.all(15.0),
-                              child: Text(
-                                "Giao hàng thành công",
-                                style: _btnStyle(),
-                              ),
-                              onPressed: () {},
-                            )
-                          : MaterialButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0)),
-                              color: Color(0xFFA9A9A9),
-                              minWidth: MediaQuery.of(context).size.width,
-                              textColor: Colors.white,
-                              padding: EdgeInsets.all(15.0),
-                              child: Text(
-                                "Đơn hàng đã hủy",
-                                style: _btnStyle(),
-                              ),
-                              onPressed: () {},
-                            )),
+                      ? MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0)),
+                    color: Color(0xFFA9A9A9),
+                    minWidth: MediaQuery.of(context).size.width,
+                    textColor: Colors.white,
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
+                      "Giao hàng thành công",
+                      style: _btnStyle(),
+                    ),
+                    onPressed: () {},
+                  )
+                      : MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0)),
+                    color: Color(0xFFA9A9A9),
+                    minWidth: MediaQuery.of(context).size.width,
+                    textColor: Colors.white,
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
+                      "Đơn hàng đã hủy",
+                      style: _btnStyle(),
+                    ),
+                    onPressed: () {},
+                  )),
             ],
           )),
     );
@@ -260,7 +259,7 @@ class _OrderDetails extends State<OrderDetails> {
           ),
           title: Text("${product.getProduct(productId).productDetailsName}"),
           subtitle:
-              Text("${product.getProduct(productId).productDetailsPrice} VND"),
+          Text("${product.getProduct(productId).productDetailsPrice} VND"),
         ),
       ),
     );
@@ -291,7 +290,7 @@ class _OrderDetails extends State<OrderDetails> {
                       .collection("jjXdZHw6PDTYOAKvv7UZLt7LMcf2")
                       .document("data")
                       .collection("payment")
-                      .document(_currentDocumentAdmin.documentID)
+                      .document(_currentDocument.documentID)
                       .updateData({
                     'status': 'delivered',
                   });
@@ -322,7 +321,7 @@ class _OrderDetails extends State<OrderDetails> {
                       .collection("jjXdZHw6PDTYOAKvv7UZLt7LMcf2")
                       .document("data")
                       .collection("payment")
-                      .document(_currentDocumentAdmin.documentID)
+                      .document(_currentDocument.documentID)
                       .updateData({
                     'status': 'cancelled',
                   });

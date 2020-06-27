@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gasgasapp/admin/manageOrderCustomer.dart';
 import 'package:provider/provider.dart';
 import 'package:gasgasapp/blocs/themeChanger.dart';
 import 'package:gasgasapp/screens/about.dart';
@@ -327,9 +328,16 @@ class _AdminPage extends State<AdminPage> {
                 ),
               ),
               onPressed: () {
-                Fluttertoast.showToast(
-                    msg: "Quản lý đơn hàng của khách hàng",
-                    toastLength: Toast.LENGTH_LONG);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => AdminOrderManagement(
+                      userID: currentUser,
+                    ),
+                  ),
+                );
+//                Fluttertoast.showToast(
+//                    msg: "Quản lý đơn hàng của khách hàng",
+//                    toastLength: Toast.LENGTH_LONG);
               },
               color: Color(0xFFB33771),
             ),

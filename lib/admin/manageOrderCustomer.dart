@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gasgasapp/ui/oder_details.dart';
+import 'package:gasgasapp/admin/orderDetailsAdmin.dart';
 
-class OrderManagement extends StatefulWidget {
+class AdminOrderManagement extends StatefulWidget {
   final FirebaseUser userID;
 
-  OrderManagement({
+  AdminOrderManagement({
     this.userID,
   });
 
   @override
-  _OrderManagement createState() => _OrderManagement(userID: userID);
+  _AdminOrderManagement createState() => _AdminOrderManagement(userID: userID);
 }
 
-class _OrderManagement extends State<OrderManagement> {
-  _OrderManagement({this.userID});
+class _AdminOrderManagement extends State<AdminOrderManagement> {
+  _AdminOrderManagement({this.userID});
 
   int countProduct;
   final FirebaseUser userID;
@@ -56,7 +56,7 @@ class _OrderManagement extends State<OrderManagement> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => OrderDetails(
+                            builder: (context) => OrderDetailsAdmin(
                               userID: userID,
                               numberId: document.data['numberId'],
                               orderId: document.data['orderId'],
@@ -106,7 +106,7 @@ class _OrderManagement extends State<OrderManagement> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => OrderDetails(
+                              builder: (context) => OrderDetailsAdmin(
                                 userID: userID,
                                 numberId: document.data['numberId'],
                                 orderId: document.data['orderId'],
@@ -159,7 +159,7 @@ class _OrderManagement extends State<OrderManagement> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => OrderDetails(
+                              builder: (context) => OrderDetailsAdmin(
                                 userID: userID,
                                 numberId: document.data['numberId'],
                                 orderId: document.data['orderId'],
@@ -212,7 +212,7 @@ class _OrderManagement extends State<OrderManagement> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => OrderDetails(
+                              builder: (context) => OrderDetailsAdmin(
                                 userID: userID,
                                 numberId: document.data['numberId'],
                                 orderId: document.data['orderId'],
