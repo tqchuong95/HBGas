@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:gasgasapp/admin/manageOrderCustomer.dart';
+import 'package:gasgasapp/admin/orderDetailsAdmin.dart';
 import 'package:provider/provider.dart';
 import 'package:gasgasapp/blocs/themeChanger.dart';
 import 'package:gasgasapp/screens/about.dart';
@@ -12,8 +11,6 @@ import 'package:gasgasapp/screens/favorites.dart';
 import 'package:gasgasapp/screens/loginPage.dart';
 import 'package:gasgasapp/screens/myAccount.dart';
 import 'package:gasgasapp/screens/settings.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:gasgasapp/admin/chartProduct.dart';
 
 class AdminPage extends StatefulWidget {
   @override
@@ -25,50 +22,7 @@ class _AdminPage extends State<AdminPage> {
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseUser currentUser;
-  String dropdownValue = 'All';
-
-  final List<SubscriberSeries> data = [
-    SubscriberSeries(
-      year: "2008",
-      subscribers: 10000000,
-      barColor: charts.ColorUtil.fromDartColor(Colors.blue),
-    ),
-    SubscriberSeries(
-      year: "2009",
-      subscribers: 11000000,
-      barColor: charts.ColorUtil.fromDartColor(Colors.blue),
-    ),
-    SubscriberSeries(
-      year: "2010",
-      subscribers: 12000000,
-      barColor: charts.ColorUtil.fromDartColor(Colors.blue),
-    ),
-    SubscriberSeries(
-      year: "2011",
-      subscribers: 10000000,
-      barColor: charts.ColorUtil.fromDartColor(Colors.blue),
-    ),
-    SubscriberSeries(
-      year: "2012",
-      subscribers: 8500000,
-      barColor: charts.ColorUtil.fromDartColor(Colors.blue),
-    ),
-    SubscriberSeries(
-      year: "2013",
-      subscribers: 7700000,
-      barColor: charts.ColorUtil.fromDartColor(Colors.blue),
-    ),
-    SubscriberSeries(
-      year: "2014",
-      subscribers: 7600000,
-      barColor: charts.ColorUtil.fromDartColor(Colors.blue),
-    ),
-    SubscriberSeries(
-      year: "2015",
-      subscribers: 5500000,
-      barColor: charts.ColorUtil.fromDartColor(Colors.red),
-    ),
-  ];
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -130,8 +84,244 @@ class _AdminPage extends State<AdminPage> {
     return Future.value(valueAll);
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> _widgetOptions = <Widget>[
+          Container(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance
+                  .collection(currentUser.uid)
+                  .document("data")
+                  .collection('payment')
+                  .orderBy('numberId', descending: true)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView(
+                    children: snapshot.data.documents
+                        .map((DocumentSnapshot document) {
+                      return Card(
+                        elevation: 8.0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListTile(
+                            leading: Text(
+                              "#${document.data['numberId']}",
+                            ),
+                            title:
+                                Text("Đơn hàng ${document.data['numberId']}"),
+                            subtitle: Text("${document.data['total']} VND"),
+                            trailing: IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => OrderDetailsAdmin(
+                                      userID: currentUser,
+                                      numberId: document.data['numberId'],
+                                      orderId: document.data['orderId'],
+                                      status: document.data['status'],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+      ),
+          Container(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance
+                  .collection(currentUser.uid)
+                  .document("data")
+                  .collection('payment')
+                  .orderBy('numberId', descending: true)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView(
+                    children: snapshot.data.documents
+                        .map((DocumentSnapshot document) {
+                      if (document.data['status'] == 'delivery') {
+                        return Card(
+                          elevation: 8.0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: Text(
+                                "#${document.data['numberId']}",
+                              ),
+                              title:
+                                  Text("Đơn hàng ${document.data['numberId']}"),
+                              subtitle: Text("${document.data['total']} VND"),
+                              trailing: IconButton(
+                                icon: Icon(
+                                  Icons.add,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderDetailsAdmin(
+                                        userID: currentUser,
+                                        numberId: document.data['numberId'],
+                                        orderId: document.data['orderId'],
+                                        status: document.data['status'],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }).toList(),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+      ),
+          Container(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance
+                  .collection(currentUser.uid)
+                  .document("data")
+                  .collection('payment')
+                  .orderBy('numberId', descending: true)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView(
+                    children: snapshot.data.documents
+                        .map((DocumentSnapshot document) {
+                      if (document.data['status'] == 'delivered') {
+                        return Card(
+                          elevation: 8.0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: Text(
+                                "#${document.data['numberId']}",
+                              ),
+                              title:
+                                  Text("Đơn hàng ${document.data['numberId']}"),
+                              subtitle: Text("${document.data['total']} VND"),
+                              trailing: IconButton(
+                                icon: Icon(
+                                  Icons.add,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderDetailsAdmin(
+                                        userID: currentUser,
+                                        numberId: document.data['numberId'],
+                                        orderId: document.data['orderId'],
+                                        status: document.data['status'],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }).toList(),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+      ),
+          Container(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance
+                  .collection(currentUser.uid)
+                  .document("data")
+                  .collection('payment')
+                  .orderBy('numberId', descending: true)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView(
+                    children: snapshot.data.documents
+                        .map((DocumentSnapshot document) {
+                      if (document.data['status'] == 'cancelled') {
+                        return Card(
+                          elevation: 8.0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              leading: Text(
+                                "#${document.data['numberId']}",
+                              ),
+                              title:
+                                  Text("Đơn hàng ${document.data['numberId']}"),
+                              subtitle: Text("${document.data['total']} VND"),
+                              trailing: IconButton(
+                                icon: Icon(
+                                  Icons.add,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderDetailsAdmin(
+                                        userID: currentUser,
+                                        numberId: document.data['numberId'],
+                                        orderId: document.data['orderId'],
+                                        status: document.data['status'],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }).toList(),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+      ),
+    ];
     // Which is used to listen to the nearest change and provides the current state and rebuilds the widget.
     ThemeChanger theme = Provider.of<ThemeChanger>(context);
 
@@ -149,244 +339,174 @@ class _AdminPage extends State<AdminPage> {
       }
     }
 
-    List<charts.Series<SubscriberSeries, String>> series = [
-      charts.Series(
-          id: "Subscribers",
-          data: data,
-          domainFn: (SubscriberSeries series, _) => series.year,
-          measureFn: (SubscriberSeries series, _) => series.subscribers,
-          colorFn: (SubscriberSeries series, _) => series.barColor)
-    ];
-
     return Scaffold(
-        // Drawer Start
-        drawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color(0xFFB33771),
-                ),
-                accountName: Text("${userName()}"),
-                accountEmail: Text("${email()}"),
-                currentAccountPicture: GestureDetector(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.blueAccent,
-                    child: Text("${photoUrl()}",
-                        style: TextStyle(
-                          fontSize: 35.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: darkmode
-                    ? Image.asset(
-                        'images/moon.png',
-                        height: 30.0,
-                        width: 26.0,
-                      )
-                    : Image.asset(
-                        'images/sunny.png',
-                        height: 30.0,
-                        width: 26.0,
-                      ),
-                title: Text("DarkMode"),
-                trailing: Switch(
-                  value: darkmode,
-                  onChanged: (val) {
-                    setState(() {
-                      darkmode = val;
-                    });
-                    if (darkmode) {
-                      theme.setTheme(ThemeData.dark());
-                    } else {
-                      theme.setTheme(ThemeData.light());
-                    }
-                  },
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => MyAccount()));
-                },
-                child: _showList(
-                  "Tài khoản của tôi",
-                  (Icons.account_box),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Favorites(
-                        userID: currentUser,
-                      ),
-                    ),
-                  );
-                },
-                child: _showList(
-                  "Yêu thích",
-                  (Icons.favorite),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Settings()));
-                },
-                child: _showList(
-                  "Cài đặt",
-                  (Icons.settings),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => About()));
-                },
-                child: _showList(
-                  "Giới thiệu",
-                  (Icons.adjust),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Contact()));
-                },
-                child: _showList(
-                  "Liên hệ",
-                  (Icons.contact_phone),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  _signOut().then((value) {
-                    if (value == null) {
-                      Fluttertoast.showToast(
-                        msg: "Đăng xuất không thành công.",
-                        toastLength: Toast.LENGTH_LONG,
-                      );
-                    } else {
-                      Navigator.of(context).pop();
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) => value));
-                    }
-                  });
-                },
-                child: _showList(
-                  "Đăng xuất",
-                  (Icons.exit_to_app),
-                ),
-              ),
-            ],
-          ),
-        ),
-        // Drawer ends
-        appBar: AppBar(
-          titleSpacing: 2.0,
-          elevation: 0,
-          backgroundColor: Color(0xFFB33771),
-          title: Text("Hoa Binh Gas"),
-//         Showing Search Bar
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-//               showSearch(context: context, delegate: ProductSearch());
-              },
-            ),
-          ],
-        ),
-        body: Column(
+      // Drawer Start
+      drawer: Drawer(
+        child: ListView(
           children: <Widget>[
-            Center(
-              child: SubscriberChart(
-                data: data,
+            UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                color: Color(0xFFB33771),
               ),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            MaterialButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(25.0)),
-              minWidth: MediaQuery.of(context).size.width,
-              child: ListTile(
-                title: Center(
-                  child: Text(
-                    "Quản lý đơn hàng của khách hàng",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+              accountName: Text("${userName()}"),
+              accountEmail: Text("${email()}"),
+              currentAccountPicture: GestureDetector(
+                child: CircleAvatar(
+                  backgroundColor: Colors.blueAccent,
+                  child: Text("${photoUrl()}",
+                      style: TextStyle(
+                        fontSize: 35.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      )),
                 ),
               ),
-              onPressed: () {
+            ),
+            ListTile(
+              leading: darkmode
+                  ? Image.asset(
+                      'images/moon.png',
+                      height: 30.0,
+                      width: 26.0,
+                    )
+                  : Image.asset(
+                      'images/sunny.png',
+                      height: 30.0,
+                      width: 26.0,
+                    ),
+              title: Text("DarkMode"),
+              trailing: Switch(
+                value: darkmode,
+                onChanged: (val) {
+                  setState(() {
+                    darkmode = val;
+                  });
+                  if (darkmode) {
+                    theme.setTheme(ThemeData.dark());
+                  } else {
+                    theme.setTheme(ThemeData.light());
+                  }
+                },
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => MyAccount()));
+              },
+              child: _showList(
+                "Tài khoản của tôi",
+                (Icons.account_box),
+              ),
+            ),
+            InkWell(
+              onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => AdminOrderManagement(
+                    builder: (context) => Favorites(
                       userID: currentUser,
                     ),
                   ),
                 );
-//                Fluttertoast.showToast(
-//                    msg: "Quản lý đơn hàng của khách hàng",
-//                    toastLength: Toast.LENGTH_LONG);
               },
-              color: Color(0xFFB33771),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            MaterialButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(25.0)),
-              minWidth: MediaQuery.of(context).size.width,
-              child: ListTile(
-                title: Center(
-                  child: Text(
-                    "Quản lý khách hàng",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+              child: _showList(
+                "Yêu thích",
+                (Icons.favorite),
               ),
-              onPressed: () {
-                Fluttertoast.showToast(
-                    msg: "Quản lý khách hàng", toastLength: Toast.LENGTH_LONG);
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Settings()));
               },
-              color: Color(0xFFB33771),
+              child: _showList(
+                "Cài đặt",
+                (Icons.settings),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => About()));
+              },
+              child: _showList(
+                "Giới thiệu",
+                (Icons.adjust),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Contact()));
+              },
+              child: _showList(
+                "Liên hệ",
+                (Icons.contact_phone),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                _signOut().then((value) {
+                  if (value == null) {
+                    Fluttertoast.showToast(
+                      msg: "Đăng xuất không thành công.",
+                      toastLength: Toast.LENGTH_LONG,
+                    );
+                  } else {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => value));
+                  }
+                });
+              },
+              child: _showList(
+                "Đăng xuất",
+                (Icons.exit_to_app),
+              ),
             ),
           ],
-        ));
-  }
-
-  Widget _imgCarousel() {
-    return Container(
-      height: 200.0,
-      child: Carousel(
-        overlayShadow: true,
-        overlayShadowColors: Colors.black45,
-        dotSize: 5.0,
-        autoplay: true,
-        animationCurve: Curves.bounceInOut,
-        dotBgColor: Colors.transparent,
-        boxFit: BoxFit.cover,
-        images: [
-          AssetImage('images/c1.jpg'),
-          AssetImage('images/c5.jpg'),
-          AssetImage('images/c2.jpg'),
-          AssetImage('images/c3.jpg'),
-          AssetImage('images/c4.jpg'),
+        ),
+      ),
+      // Drawer ends
+      appBar: AppBar(
+        titleSpacing: 2.0,
+        elevation: 0,
+        backgroundColor: Color(0xFFB33771),
+        title: Text("Hoa Binh Gas"),
+//         Showing Search Bar
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+//               showSearch(context: context, delegate: ProductSearch());
+            },
+          ),
         ],
+      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar:
+      BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.select_all, color: Color(0xFFB33771),),
+            title: Text('Tất cả', style: TextStyle(color: Color(0xFFB33771)),),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_shipping, color: Color(0xFFB33771),),
+            title: Text('Đang giao', style: TextStyle(color: Color(0xFFB33771)),),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.done_outline, color: Color(0xFFB33771),),
+            title: Text('Đã giao', style: TextStyle(color: Color(0xFFB33771)),),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.remove_circle_outline, color: Color(0xFFB33771),),
+            title: Text('Đã giao', style: TextStyle(color: Color(0xFFB33771)),),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
