@@ -164,6 +164,13 @@ packages:
       url: "https://github.com/MarkOSullivan94/dart_config.git"
     source: git
     version: "0.5.0"
+  date_format:
+    dependency: "direct main"
+    description:
+      name: date_format
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.8"
   dotenv:
     dependency: transitive
     description:

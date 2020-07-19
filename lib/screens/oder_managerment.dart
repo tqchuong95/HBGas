@@ -23,9 +23,7 @@ class _OrderManagement extends State<OrderManagement> {
 
   @override
   Widget build(BuildContext context) {
-    final items = List<String>.generate(100, (i) => "Item $i");
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
 
     StreamBuilder allOrder = StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
@@ -198,29 +196,43 @@ class _OrderManagement extends State<OrderManagement> {
                   elevation: 8.0,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      leading: Text(
-                        "#${document.data['numberId']}",
-                      ),
-                      title: Text("Đơn hàng ${document.data['numberId']}"),
-                      subtitle: Text("${document.data['total']} VND"),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => OrderDetails(
-                                userID: userID,
-                                numberId: document.data['numberId'],
-                                orderId: document.data['orderId'],
-                                status: document.data['status'],
-                              ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => OrderDetails(
+                              userID: userID,
+                              numberId: document.data['numberId'],
+                              orderId: document.data['orderId'],
+                              status: document.data['status'],
                             ),
-                          );
-                        },
+                          ),
+                        );
+                      },
+                      child: ListTile(
+                        leading: Text(
+                          "#${document.data['numberId']}",
+                        ),
+                        title: Text("Đơn hàng ${document.data['numberId']}"),
+                        subtitle: Text("${document.data['total']} VND"),
+                        trailing: IconButton(
+                          icon: Icon(
+                            Icons.add,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => OrderDetails(
+                                  userID: userID,
+                                  numberId: document.data['numberId'],
+                                  orderId: document.data['orderId'],
+                                  status: document.data['status'],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

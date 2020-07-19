@@ -62,7 +62,9 @@ class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
     preferences = await SharedPreferences.getInstance();
     if (isLoggedIn) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage()));
     }
     setState(() {
       isLoading = false;

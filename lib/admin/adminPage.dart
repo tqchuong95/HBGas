@@ -93,233 +93,243 @@ class _AdminPage extends State<AdminPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
-          Container(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance
-                  .collection(currentUser.uid)
-                  .document("data")
-                  .collection('payment')
-                  .orderBy('numberId', descending: true)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return ListView(
-                    children: snapshot.data.documents
-                        .map((DocumentSnapshot document) {
-                      return Card(
-                        elevation: 8.0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            leading: Text(
-                              "#${document.data['numberId']}",
-                            ),
-                            title:
-                                Text("Đơn hàng ${document.data['numberId']}"),
-                            subtitle: Text("${document.data['total']} VND"),
-                            trailing: IconButton(
-                              icon: Icon(
-                                Icons.add,
-                                color: Colors.red,
+      Container(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance
+              .collection(currentUser.uid)
+              .document("data")
+              .collection('payment')
+              .orderBy('numberId', descending: true)
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return ListView(
+                children:
+                    snapshot.data.documents.map((DocumentSnapshot document) {
+                  return Card(
+                    elevation: 8.0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => OrderDetailsAdmin(
+                                userID: currentUser,
+                                numberId: document.data['numberId'],
+                                orderId: document.data['orderId'],
+                                status: document.data['status'],
                               ),
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => OrderDetailsAdmin(
-                                      userID: currentUser,
-                                      numberId: document.data['numberId'],
-                                      orderId: document.data['orderId'],
-                                      status: document.data['status'],
-                                    ),
-                                  ),
-                                );
-                              },
                             ),
+                          );
+                        },
+                        child: ListTile(
+                          leading: Text(
+                            "#${document.data['numberId']}",
+                          ),
+                          title: Text("Đơn hàng ${document.data['numberId']}"),
+                          subtitle: Text("${document.data['total']} VND"),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => OrderDetailsAdmin(
+                                    userID: currentUser,
+                                    numberId: document.data['numberId'],
+                                    orderId: document.data['orderId'],
+                                    status: document.data['status'],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      );
-                    }).toList(),
+                      ),
+                    ),
                   );
-                } else {
-                  return Container();
-                }
-              },
-            ),
+                }).toList(),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
-          Container(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance
-                  .collection(currentUser.uid)
-                  .document("data")
-                  .collection('payment')
-                  .orderBy('numberId', descending: true)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return ListView(
-                    children: snapshot.data.documents
-                        .map((DocumentSnapshot document) {
-                      if (document.data['status'] == 'delivery') {
-                        return Card(
-                          elevation: 8.0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              leading: Text(
-                                "#${document.data['numberId']}",
-                              ),
-                              title:
-                                  Text("Đơn hàng ${document.data['numberId']}"),
-                              subtitle: Text("${document.data['total']} VND"),
-                              trailing: IconButton(
-                                icon: Icon(
-                                  Icons.add,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => OrderDetailsAdmin(
-                                        userID: currentUser,
-                                        numberId: document.data['numberId'],
-                                        orderId: document.data['orderId'],
-                                        status: document.data['status'],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+      Container(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance
+              .collection(currentUser.uid)
+              .document("data")
+              .collection('payment')
+              .orderBy('numberId', descending: true)
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return ListView(
+                children:
+                    snapshot.data.documents.map((DocumentSnapshot document) {
+                  if (document.data['status'] == 'delivery') {
+                    return Card(
+                      elevation: 8.0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          leading: Text(
+                            "#${document.data['numberId']}",
                           ),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }).toList(),
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
+                          title: Text("Đơn hàng ${document.data['numberId']}"),
+                          subtitle: Text("${document.data['total']} VND"),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => OrderDetailsAdmin(
+                                    userID: currentUser,
+                                    numberId: document.data['numberId'],
+                                    orderId: document.data['orderId'],
+                                    status: document.data['status'],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }).toList(),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
-          Container(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance
-                  .collection(currentUser.uid)
-                  .document("data")
-                  .collection('payment')
-                  .orderBy('numberId', descending: true)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return ListView(
-                    children: snapshot.data.documents
-                        .map((DocumentSnapshot document) {
-                      if (document.data['status'] == 'delivered') {
-                        return Card(
-                          elevation: 8.0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              leading: Text(
-                                "#${document.data['numberId']}",
-                              ),
-                              title:
-                                  Text("Đơn hàng ${document.data['numberId']}"),
-                              subtitle: Text("${document.data['total']} VND"),
-                              trailing: IconButton(
-                                icon: Icon(
-                                  Icons.add,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => OrderDetailsAdmin(
-                                        userID: currentUser,
-                                        numberId: document.data['numberId'],
-                                        orderId: document.data['orderId'],
-                                        status: document.data['status'],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+      Container(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance
+              .collection(currentUser.uid)
+              .document("data")
+              .collection('payment')
+              .orderBy('numberId', descending: true)
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return ListView(
+                children:
+                    snapshot.data.documents.map((DocumentSnapshot document) {
+                  if (document.data['status'] == 'delivered') {
+                    return Card(
+                      elevation: 8.0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          leading: Text(
+                            "#${document.data['numberId']}",
                           ),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }).toList(),
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
+                          title: Text("Đơn hàng ${document.data['numberId']}"),
+                          subtitle: Text("${document.data['total']} VND"),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => OrderDetailsAdmin(
+                                    userID: currentUser,
+                                    numberId: document.data['numberId'],
+                                    orderId: document.data['orderId'],
+                                    status: document.data['status'],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }).toList(),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
-          Container(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance
-                  .collection(currentUser.uid)
-                  .document("data")
-                  .collection('payment')
-                  .orderBy('numberId', descending: true)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return ListView(
-                    children: snapshot.data.documents
-                        .map((DocumentSnapshot document) {
-                      if (document.data['status'] == 'cancelled') {
-                        return Card(
-                          elevation: 8.0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              leading: Text(
-                                "#${document.data['numberId']}",
-                              ),
-                              title:
-                                  Text("Đơn hàng ${document.data['numberId']}"),
-                              subtitle: Text("${document.data['total']} VND"),
-                              trailing: IconButton(
-                                icon: Icon(
-                                  Icons.add,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => OrderDetailsAdmin(
-                                        userID: currentUser,
-                                        numberId: document.data['numberId'],
-                                        orderId: document.data['orderId'],
-                                        status: document.data['status'],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+      Container(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance
+              .collection(currentUser.uid)
+              .document("data")
+              .collection('payment')
+              .orderBy('numberId', descending: true)
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return ListView(
+                children:
+                    snapshot.data.documents.map((DocumentSnapshot document) {
+                  if (document.data['status'] == 'cancelled') {
+                    return Card(
+                      elevation: 8.0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          leading: Text(
+                            "#${document.data['numberId']}",
                           ),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }).toList(),
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
+                          title: Text("Đơn hàng ${document.data['numberId']}"),
+                          subtitle: Text("${document.data['total']} VND"),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => OrderDetailsAdmin(
+                                    userID: currentUser,
+                                    numberId: document.data['numberId'],
+                                    orderId: document.data['orderId'],
+                                    status: document.data['status'],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }).toList(),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
     ];
     // Which is used to listen to the nearest change and provides the current state and rebuilds the widget.
@@ -484,24 +494,47 @@ class _AdminPage extends State<AdminPage> {
         ],
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar:
-      BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.select_all, color: Color(0xFFB33771),),
-            title: Text('Tất cả', style: TextStyle(color: Color(0xFFB33771)),),
+            icon: Icon(
+              Icons.select_all,
+              color: Color(0xFFB33771),
+            ),
+            title: Text(
+              'Tất cả',
+              style: TextStyle(color: Color(0xFFB33771)),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_shipping, color: Color(0xFFB33771),),
-            title: Text('Đang giao', style: TextStyle(color: Color(0xFFB33771)),),
+            icon: Icon(
+              Icons.local_shipping,
+              color: Color(0xFFB33771),
+            ),
+            title: Text(
+              'Đang giao',
+              style: TextStyle(color: Color(0xFFB33771)),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.done_outline, color: Color(0xFFB33771),),
-            title: Text('Đã giao', style: TextStyle(color: Color(0xFFB33771)),),
+            icon: Icon(
+              Icons.done_outline,
+              color: Color(0xFFB33771),
+            ),
+            title: Text(
+              'Đã giao',
+              style: TextStyle(color: Color(0xFFB33771)),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.remove_circle_outline, color: Color(0xFFB33771),),
-            title: Text('Đã giao', style: TextStyle(color: Color(0xFFB33771)),),
+            icon: Icon(
+              Icons.remove_circle_outline,
+              color: Color(0xFFB33771),
+            ),
+            title: Text(
+              'Đã giao',
+              style: TextStyle(color: Color(0xFFB33771)),
+            ),
           ),
         ],
         currentIndex: _selectedIndex,

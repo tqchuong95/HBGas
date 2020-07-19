@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gasgasapp/model/products.dart';
 import 'package:gasgasapp/screens/oder_managerment.dart';
+import 'package:intl/intl.dart';
 
 class OrderDetails extends StatefulWidget {
   final FirebaseUser userID;
@@ -32,6 +33,7 @@ class _OrderDetails extends State<OrderDetails> {
   String address;
   String phone;
   double totalPrice;
+  DateTime timeBuy;
   List<String> productId = List<String>();
   Products _products = Products();
   DocumentSnapshot _currentDocument;
@@ -51,6 +53,9 @@ class _OrderDetails extends State<OrderDetails> {
           address = f.data['address'];
           phone = f.data['phone'];
           totalPrice = f.data['total'];
+          Timestamp timeSp = f.data['time'];
+          int dateSp = timeSp.seconds;
+          timeBuy = DateTime.fromMillisecondsSinceEpoch(dateSp * 1000);
           _currentDocument = f;
         }
       });
@@ -64,9 +69,6 @@ class _OrderDetails extends State<OrderDetails> {
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
         if (f.data['numberId'] == numberId) {
-//          address = f.data['address'];
-//          phone = f.data['phone'];
-//          totalPrice = f.data['total'];
           _currentDocumentAdmin = f;
         }
       });
@@ -92,7 +94,6 @@ class _OrderDetails extends State<OrderDetails> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -149,6 +150,21 @@ class _OrderDetails extends State<OrderDetails> {
                           subtitle: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
                             child: Text("$phone"),
+                          ),
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            Icons.phone,
+                            color: Colors.yellow[700],
+                          ),
+                          title: Text(
+                            'Thời gian mua: ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Text(
+                                "${DateFormat("yyyy-MM-dd hh:mm:ss").format(timeBuy)}"),
                           ),
                         ),
                         SizedBox(
@@ -286,6 +302,8 @@ class _OrderDetails extends State<OrderDetails> {
                       .document(_currentDocument.documentID)
                       .updateData({
                     'status': 'delivered',
+                    'time': DateTime.now(),
+                    'flag': true,
                   });
                   Firestore.instance
                       .collection("jjXdZHw6PDTYOAKvv7UZLt7LMcf2")
@@ -294,6 +312,8 @@ class _OrderDetails extends State<OrderDetails> {
                       .document(_currentDocumentAdmin.documentID)
                       .updateData({
                     'status': 'delivered',
+                    'time': DateTime.now(),
+                    'flag': true,
                   });
                 });
                 Navigator.of(context).pop();

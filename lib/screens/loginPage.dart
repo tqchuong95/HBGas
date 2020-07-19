@@ -82,7 +82,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     });
     if (isLogedin) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage()));
     }
 
     if (isLogedinAdmin) {
@@ -397,7 +399,8 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
+                            MaterialPageRoute(
+                                builder: (context) => HomePage()),
                             (Route<dynamic> route) => true,
                           );
                         }
@@ -446,7 +449,8 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
+                            MaterialPageRoute(
+                                builder: (context) => HomePage()),
                             (Route<dynamic> route) => true,
                           );
                         }
@@ -485,24 +489,25 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       _showLoadingIndicator();
 
       try {
-        if (_emailController.text == "admin"){
-        await firebaseAuth.signInWithEmailAndPassword(
-            email: "admin@gas.mail.com", password: _passwordController.text);
+        if (_emailController.text == "admin") {
+          await firebaseAuth.signInWithEmailAndPassword(
+              email: "admin@gas.mail.com", password: _passwordController.text);
 //        Navigator.pushReplacement(
 //            context, MaterialPageRoute(builder: (context) => HomePage()));
-        // pushAndRemoveUtil makes users to not see the login screen when they press the back button
+          // pushAndRemoveUtil makes users to not see the login screen when they press the back button
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => AdminPage()),
-                (Route<dynamic> route) => true,
+            (Route<dynamic> route) => true,
           );
         } else {
           await firebaseAuth.signInWithEmailAndPassword(
               email: _emailController.text, password: _passwordController.text);
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-                (Route<dynamic> route) => true,
+            MaterialPageRoute(
+                builder: (context) => HomePage()),
+            (Route<dynamic> route) => true,
           );
         }
       } catch (e) {
@@ -561,6 +566,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   }
 
   BuildContext loginContext;
+
   _showLoadingIndicator() {
     showDialog(
       context: context,

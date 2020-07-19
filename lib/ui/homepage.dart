@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gasgasapp/screens/notificationScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:gasgasapp/blocs/themeChanger.dart';
 import 'package:gasgasapp/screens/about.dart';
@@ -16,6 +17,8 @@ import 'package:gasgasapp/ui/recent_products.dart';
 import 'package:gasgasapp/screens/oder_managerment.dart';
 
 class HomePage extends StatefulWidget {
+  HomePage();
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -26,6 +29,8 @@ class _HomePageState extends State<HomePage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseUser currentUser;
   String dropdownValue = 'All';
+
+  _HomePageState();
 
   @override
   void initState() {
@@ -70,7 +75,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<int> getData(FirebaseUser userID) async {
-    int tmp;
+    int tmp = 0;
     await Firestore.instance
         .collection(userID.uid)
         .document("data")
@@ -78,6 +83,24 @@ class _HomePageState extends State<HomePage> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       tmp = snapshot.documents.length;
+    });
+    return tmp;
+  }
+
+  Future<int> getNotification(FirebaseUser userID) async {
+    int tmp = Timestamp.now().seconds;
+    await Firestore.instance
+        .collection(userID.uid)
+        .document("data")
+        .collection('payment')
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((f) {
+        if (f.data['flag'] == true) {
+          Timestamp timestamp = f.data['time'];
+          tmp = timestamp.seconds;
+        }
+      });
     });
     return tmp;
   }
@@ -154,6 +177,18 @@ class _HomePageState extends State<HomePage> {
                     theme.setTheme(ThemeData.light());
                   }
                 },
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => NotificationScreen(
+                          userID: currentUser,
+                        )));
+              },
+              child: _showList(
+                "Thông báo",
+                (Icons.notifications),
               ),
             ),
             InkWell(
@@ -259,6 +294,41 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           Stack(children: <Widget>[
             IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => NotificationScreen(
+                          userID: currentUser,
+                        )));
+              },
+            ),
+            Container(
+              child: FutureBuilder<int>(
+                future: getNotification(currentUser),
+                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container();
+                  } else {
+                    if (DateTime.fromMillisecondsSinceEpoch(
+                                snapshot.data * 1000)
+                            .add(new Duration(days: 40))
+                            .compareTo(DateTime.now()) <
+                        0) {
+                      return Positioned(
+                        top: 7.0,
+                        right: 8.0,
+                        child: Icon(Icons.brightness_1,
+                            size: 12.0, color: Colors.green[800]),
+                      );
+                    } else
+                      return Container();
+                  }
+                },
+              ),
+            ),
+          ]),
+          Stack(children: <Widget>[
+            IconButton(
               icon: Icon(Icons.shopping_cart),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -274,7 +344,7 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Container();
                   } else {
-                    if (snapshot.data >= 1) {
+                    if (snapshot.data > 0) {
                       return Positioned(
                           top: 0,
                           right: 0,

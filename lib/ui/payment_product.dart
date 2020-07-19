@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gasgasapp/screens/loginPage.dart';
 import 'package:gasgasapp/ui/homepage.dart';
 
 // ignore: must_be_immutable
@@ -152,12 +153,12 @@ class ConfirmOrderPage extends StatelessWidget {
             width: double.infinity,
             child: RaisedButton(
               color: Color(0xFFB33771),
-              onPressed: () {
+              onPressed: () async {
                 if (_addressController.text != "" &&
                     _phoneController.text != "") {
                   createRecord();
                   Fluttertoast.showToast(msg: 'Bạn đã đặt hàng thành công.');
-                  Navigator.of(context).push(
+                  Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomePage()));
                 } else {
                   Fluttertoast.showToast(
@@ -219,6 +220,8 @@ class ConfirmOrderPage extends StatelessWidget {
       'numberId': numberOrder + 1,
       'orderId' : numberOrder + 1,
       'status' : 'delivery',
+      'time' : DateTime.now(),
+      'flag' : false,
     });
 
     await databaseReference
@@ -233,6 +236,8 @@ class ConfirmOrderPage extends StatelessWidget {
       'numberId': numberOrder + 1,
       'orderId' : numberOrder + 1,
       'status' : 'delivery',
+      'time' : DateTime.now(),
+      'flag' : false,
     });
 
     for (int i = 0; i < amountOfProduct; i++) {

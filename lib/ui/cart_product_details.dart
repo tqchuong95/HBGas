@@ -174,7 +174,7 @@ class _CartProductDetailsState extends State<CartProductDetails> {
                 ),
                 onPressed: () {
                   if (totalPrice > 0.0)
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => ConfirmOrderPage(
                               userID: userID,
                               totalPrice: totalPrice,
