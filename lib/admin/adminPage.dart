@@ -125,10 +125,30 @@ class _AdminPage extends State<AdminPage> {
                           );
                         },
                         child: ListTile(
-                          leading: Text(
-                            "#${document.data['numberId']}",
+                          leading: ((document.data['status'] == 'delivery')
+                              ? Icon(
+                                  Icons.local_shipping,
+                                  color: Color(0xFFB33771),
+                                )
+                              : (document.data['status'] == 'delivered')
+                                  ? Icon(
+                                      Icons.done_outline,
+                                      color: Color(0xFFB33771),
+                                    )
+                                  : Icon(
+                                      Icons.remove_circle_outline,
+                                      color: Color(0xFFB33771),
+                                    )),
+                          title: Column(
+                            children: <Widget>[
+                              Text("Tài khoản:"),
+                              Text("${document.data['userID']}"),
+                              Text("Đơn hàng ${document.data['numberId']}",
+                                  style:
+                                      TextStyle(fontStyle: FontStyle.italic)),
+                            ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
                           ),
-                          title: Text("Đơn hàng ${document.data['numberId']}"),
                           subtitle: Text("${document.data['total']} VND"),
                           trailing: IconButton(
                             icon: Icon(
@@ -136,6 +156,7 @@ class _AdminPage extends State<AdminPage> {
                               color: Colors.red,
                             ),
                             onPressed: () {
+                              print("so lan");
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => OrderDetailsAdmin(
@@ -180,10 +201,20 @@ class _AdminPage extends State<AdminPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
-                          leading: Text(
-                            "#${document.data['numberId']}",
+                          leading: Icon(
+                            Icons.local_shipping,
+                            color: Color(0xFFB33771),
                           ),
-                          title: Text("Đơn hàng ${document.data['numberId']}"),
+                          title: Column(
+                            children: <Widget>[
+                              Text("Tài khoản:"),
+                              Text("${document.data['userID']}"),
+                              Text("Đơn hàng ${document.data['numberId']}",
+                                  style:
+                                  TextStyle(fontStyle: FontStyle.italic)),
+                            ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
                           subtitle: Text("${document.data['total']} VND"),
                           trailing: IconButton(
                             icon: Icon(
@@ -237,10 +268,20 @@ class _AdminPage extends State<AdminPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
-                          leading: Text(
-                            "#${document.data['numberId']}",
+                          leading: Icon(
+                            Icons.done_outline,
+                            color: Color(0xFFB33771),
                           ),
-                          title: Text("Đơn hàng ${document.data['numberId']}"),
+                          title: Column(
+                            children: <Widget>[
+                              Text("Tài khoản:"),
+                              Text("${document.data['userID']}"),
+                              Text("Đơn hàng ${document.data['numberId']}",
+                                  style:
+                                  TextStyle(fontStyle: FontStyle.italic)),
+                            ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
                           subtitle: Text("${document.data['total']} VND"),
                           trailing: IconButton(
                             icon: Icon(
@@ -294,10 +335,20 @@ class _AdminPage extends State<AdminPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
-                          leading: Text(
-                            "#${document.data['numberId']}",
+                          leading: Icon(
+                            Icons.remove_circle_outline,
+                            color: Color(0xFFB33771),
                           ),
-                          title: Text("Đơn hàng ${document.data['numberId']}"),
+                          title: Column(
+                            children: <Widget>[
+                              Text("Tài khoản:"),
+                              Text("${document.data['userID']}"),
+                              Text("Đơn hàng ${document.data['numberId']}",
+                                  style:
+                                  TextStyle(fontStyle: FontStyle.italic)),
+                            ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
                           subtitle: Text("${document.data['total']} VND"),
                           trailing: IconButton(
                             icon: Icon(
@@ -532,7 +583,7 @@ class _AdminPage extends State<AdminPage> {
               color: Color(0xFFB33771),
             ),
             title: Text(
-              'Đã giao',
+              'Đã hủy',
               style: TextStyle(color: Color(0xFFB33771)),
             ),
           ),
