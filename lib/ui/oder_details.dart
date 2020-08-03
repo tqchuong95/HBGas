@@ -293,7 +293,7 @@ class _OrderDetails extends State<OrderDetails> {
           actions: <Widget>[
             FlatButton(
               child: new Text("Đã nhận"),
-              onPressed: () {
+              onPressed: () async {
                 setState(() {
                   Firestore.instance
                       .collection(userID.uid)
@@ -315,20 +315,20 @@ class _OrderDetails extends State<OrderDetails> {
                     'time': DateTime.now(),
                     'flag': true,
                   });
-                });
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => OrderManagement(
-                      userID: userID,
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => OrderManagement(
+                        userID: userID,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                });
               },
             ),
             FlatButton(
               child: new Text("Hủy đơn hàng"),
-              onPressed: () {
+              onPressed: () async {
                 setState(() {
                   Firestore.instance
                       .collection(userID.uid)
@@ -346,15 +346,15 @@ class _OrderDetails extends State<OrderDetails> {
                       .updateData({
                     'status': 'cancelled',
                   });
-                });
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => OrderManagement(
-                      userID: userID,
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => OrderManagement(
+                        userID: userID,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                });
               },
             ),
           ],

@@ -66,7 +66,7 @@ class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
-        if (f.data['orderId'] == orderId) {
+        if (f.data['orderId'] == orderId && f.data['userID'] == email) {
           productId.add(f.data['product']);
         }
       });
@@ -262,83 +262,6 @@ class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
           Text("${product.getProduct(productId).productDetailsPrice} VND"),
         ),
       ),
-    );
-  }
-
-  void _showDialogProduct() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Xác nhận đơn hàng"),
-          content: new Text("Bạn đã nhận được hàng?/Bạn muốn hủy đơn hàng?"),
-          actions: <Widget>[
-            FlatButton(
-              child: new Text("Đã nhận"),
-              onPressed: () {
-                setState(() {
-                  Firestore.instance
-                      .collection(userID.uid)
-                      .document("data")
-                      .collection("payment")
-                      .document(_currentDocument.documentID)
-                      .updateData({
-                    'status': 'delivered',
-                  });
-                  Firestore.instance
-                      .collection("jjXdZHw6PDTYOAKvv7UZLt7LMcf2")
-                      .document("data")
-                      .collection("payment")
-                      .document(_currentDocument.documentID)
-                      .updateData({
-                    'status': 'delivered',
-                  });
-                });
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => OrderManagement(
-                      userID: userID,
-                    ),
-                  ),
-                );
-              },
-            ),
-            FlatButton(
-              child: new Text("Hủy đơn hàng"),
-              onPressed: () {
-                setState(() {
-                  Firestore.instance
-                      .collection(userID.uid)
-                      .document("data")
-                      .collection("payment")
-                      .document(_currentDocument.documentID)
-                      .updateData({
-                    'status': 'cancelled',
-                  });
-                  Firestore.instance
-                      .collection("jjXdZHw6PDTYOAKvv7UZLt7LMcf2")
-                      .document("data")
-                      .collection("payment")
-                      .document(_currentDocument.documentID)
-                      .updateData({
-                    'status': 'cancelled',
-                  });
-                });
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => OrderManagement(
-                      userID: userID,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

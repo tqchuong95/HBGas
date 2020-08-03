@@ -156,7 +156,6 @@ class _AdminPage extends State<AdminPage> {
                               color: Colors.red,
                             ),
                             onPressed: () {
-                              print("so lan");
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => OrderDetailsAdmin(

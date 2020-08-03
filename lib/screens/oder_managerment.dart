@@ -41,9 +41,20 @@ class _OrderManagement extends State<OrderManagement> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    leading: Text(
-                      "#${document.data['numberId']}",
-                    ),
+                    leading: ((document.data['status'] == 'delivery')
+                        ? Icon(
+                      Icons.local_shipping,
+                      color: Color(0xFFB33771),
+                    )
+                        : (document.data['status'] == 'delivered')
+                        ? Icon(
+                      Icons.done_outline,
+                      color: Color(0xFFB33771),
+                    )
+                        : Icon(
+                      Icons.remove_circle_outline,
+                      color: Color(0xFFB33771),
+                    )),
                     title: Text("Đơn hàng ${document.data['numberId']}"),
                     subtitle: Text("${document.data['total']} VND"),
                     trailing: IconButton(
@@ -91,8 +102,9 @@ class _OrderManagement extends State<OrderManagement> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
-                      leading: Text(
-                        "#${document.data['numberId']}",
+                      leading: Icon(
+                        Icons.local_shipping,
+                        color: Color(0xFFB33771),
                       ),
                       title: Text("Đơn hàng ${document.data['numberId']}"),
                       subtitle: Text("${document.data['total']} VND"),
@@ -144,8 +156,9 @@ class _OrderManagement extends State<OrderManagement> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
-                      leading: Text(
-                        "#${document.data['numberId']}",
+                      leading: Icon(
+                        Icons.done_outline,
+                        color: Color(0xFFB33771),
                       ),
                       title: Text("Đơn hàng ${document.data['numberId']}"),
                       subtitle: Text("${document.data['total']} VND"),
@@ -210,8 +223,9 @@ class _OrderManagement extends State<OrderManagement> {
                         );
                       },
                       child: ListTile(
-                        leading: Text(
-                          "#${document.data['numberId']}",
+                        leading: Icon(
+                          Icons.remove_circle_outline,
+                          color: Color(0xFFB33771),
                         ),
                         title: Text("Đơn hàng ${document.data['numberId']}"),
                         subtitle: Text("${document.data['total']} VND"),
