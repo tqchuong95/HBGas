@@ -442,9 +442,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                             "photoUrl": user.photoUrl,
                             "email": user.email,
                           });
-                          // Navigator.of(context).pushReplacement(
-                          //     MaterialPageRoute(
-                          //         builder: (context) => HomePage()));
+//                           Navigator.of(context).pushReplacement(
+//                               MaterialPageRoute(
+//                                   builder: (context) => HomePage()));
                           // pushAndRemoveUtil makes users to not see the login screen when they press the back button
 
                           Navigator.pushAndRemoveUntil(
@@ -495,20 +495,17 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 //        Navigator.pushReplacement(
 //            context, MaterialPageRoute(builder: (context) => HomePage()));
           // pushAndRemoveUtil makes users to not see the login screen when they press the back button
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => AdminPage()),
-            (Route<dynamic> route) => true,
-          );
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AdminPage()));
         } else {
           await firebaseAuth.signInWithEmailAndPassword(
               email: _emailController.text, password: _passwordController.text);
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (context) => HomePage()),
-            (Route<dynamic> route) => true,
-          );
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => HomePage()));
         }
       } catch (e) {
         print(e.message);

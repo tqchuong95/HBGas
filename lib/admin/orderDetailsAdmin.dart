@@ -206,7 +206,7 @@ class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
                       style: _btnStyle(),
                     ),
                     onPressed: () async {
-//                      _showDialogProduct();
+                      Navigator.of(context).pop();
                     },
                   )
                       : (status == 'delivered')
@@ -221,7 +221,9 @@ class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
                       "Giao hàng thành công",
                       style: _btnStyle(),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   )
                       : MaterialButton(
                     shape: RoundedRectangleBorder(
@@ -234,7 +236,9 @@ class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
                       "Đơn hàng đã hủy",
                       style: _btnStyle(),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   )),
             ],
           )),
