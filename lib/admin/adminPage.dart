@@ -120,6 +120,7 @@ class _AdminPage extends State<AdminPage> {
                                 numberId: document.data['numberId'],
                                 orderId: document.data['orderId'],
                                 status: document.data['status'],
+                                email: document.data['userID'],
                               ),
                             ),
                           );
@@ -163,6 +164,7 @@ class _AdminPage extends State<AdminPage> {
                                     numberId: document.data['numberId'],
                                     orderId: document.data['orderId'],
                                     status: document.data['status'],
+                                    email: document.data['userID'],
                                   ),
                                 ),
                               );
@@ -199,39 +201,55 @@ class _AdminPage extends State<AdminPage> {
                       elevation: 8.0,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.local_shipping,
-                            color: Color(0xFFB33771),
-                          ),
-                          title: Column(
-                            children: <Widget>[
-                              Text("Tài khoản:"),
-                              Text("${document.data['userID']}"),
-                              Text("Đơn hàng ${document.data['numberId']}",
-                                  style:
-                                  TextStyle(fontStyle: FontStyle.italic)),
-                            ],
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                          ),
-                          subtitle: Text("${document.data['total']} VND"),
-                          trailing: IconButton(
-                            icon: Icon(
-                              Icons.add,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => OrderDetailsAdmin(
-                                    userID: currentUser,
-                                    numberId: document.data['numberId'],
-                                    orderId: document.data['orderId'],
-                                    status: document.data['status'],
-                                  ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => OrderDetailsAdmin(
+                                  userID: currentUser,
+                                  numberId: document.data['numberId'],
+                                  orderId: document.data['orderId'],
+                                  status: document.data['status'],
+                                  email: document.data['userID'],
                                 ),
-                              );
-                            },
+                              ),
+                            );
+                          },
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.local_shipping,
+                              color: Color(0xFFB33771),
+                            ),
+                            title: Column(
+                              children: <Widget>[
+                                Text("Tài khoản:"),
+                                Text("${document.data['userID']}"),
+                                Text("Đơn hàng ${document.data['numberId']}",
+                                    style:
+                                    TextStyle(fontStyle: FontStyle.italic)),
+                              ],
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                            ),
+                            subtitle: Text("${document.data['total']} VND"),
+                            trailing: IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => OrderDetailsAdmin(
+                                      userID: currentUser,
+                                      numberId: document.data['numberId'],
+                                      orderId: document.data['orderId'],
+                                      status: document.data['status'],
+                                      email: document.data['userID'],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -266,39 +284,55 @@ class _AdminPage extends State<AdminPage> {
                       elevation: 8.0,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.done_outline,
-                            color: Color(0xFFB33771),
-                          ),
-                          title: Column(
-                            children: <Widget>[
-                              Text("Tài khoản:"),
-                              Text("${document.data['userID']}"),
-                              Text("Đơn hàng ${document.data['numberId']}",
-                                  style:
-                                  TextStyle(fontStyle: FontStyle.italic)),
-                            ],
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                          ),
-                          subtitle: Text("${document.data['total']} VND"),
-                          trailing: IconButton(
-                            icon: Icon(
-                              Icons.add,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => OrderDetailsAdmin(
-                                    userID: currentUser,
-                                    numberId: document.data['numberId'],
-                                    orderId: document.data['orderId'],
-                                    status: document.data['status'],
-                                  ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => OrderDetailsAdmin(
+                                  userID: currentUser,
+                                  numberId: document.data['numberId'],
+                                  orderId: document.data['orderId'],
+                                  status: document.data['status'],
+                                  email: document.data['userID'],
                                 ),
-                              );
-                            },
+                              ),
+                            );
+                          },
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.done_outline,
+                              color: Color(0xFFB33771),
+                            ),
+                            title: Column(
+                              children: <Widget>[
+                                Text("Tài khoản:"),
+                                Text("${document.data['userID']}"),
+                                Text("Đơn hàng ${document.data['numberId']}",
+                                    style:
+                                    TextStyle(fontStyle: FontStyle.italic)),
+                              ],
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                            ),
+                            subtitle: Text("${document.data['total']} VND"),
+                            trailing: IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => OrderDetailsAdmin(
+                                      userID: currentUser,
+                                      numberId: document.data['numberId'],
+                                      orderId: document.data['orderId'],
+                                      status: document.data['status'],
+                                      email: document.data['userID'],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -333,39 +367,55 @@ class _AdminPage extends State<AdminPage> {
                       elevation: 8.0,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.remove_circle_outline,
-                            color: Color(0xFFB33771),
-                          ),
-                          title: Column(
-                            children: <Widget>[
-                              Text("Tài khoản:"),
-                              Text("${document.data['userID']}"),
-                              Text("Đơn hàng ${document.data['numberId']}",
-                                  style:
-                                  TextStyle(fontStyle: FontStyle.italic)),
-                            ],
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                          ),
-                          subtitle: Text("${document.data['total']} VND"),
-                          trailing: IconButton(
-                            icon: Icon(
-                              Icons.add,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => OrderDetailsAdmin(
-                                    userID: currentUser,
-                                    numberId: document.data['numberId'],
-                                    orderId: document.data['orderId'],
-                                    status: document.data['status'],
-                                  ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => OrderDetailsAdmin(
+                                  userID: currentUser,
+                                  numberId: document.data['numberId'],
+                                  orderId: document.data['orderId'],
+                                  status: document.data['status'],
+                                  email: document.data['userID'],
                                 ),
-                              );
-                            },
+                              ),
+                            );
+                          },
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.remove_circle_outline,
+                              color: Color(0xFFB33771),
+                            ),
+                            title: Column(
+                              children: <Widget>[
+                                Text("Tài khoản:"),
+                                Text("${document.data['userID']}"),
+                                Text("Đơn hàng ${document.data['numberId']}",
+                                    style:
+                                    TextStyle(fontStyle: FontStyle.italic)),
+                              ],
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                            ),
+                            subtitle: Text("${document.data['total']} VND"),
+                            trailing: IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => OrderDetailsAdmin(
+                                      userID: currentUser,
+                                      numberId: document.data['numberId'],
+                                      orderId: document.data['orderId'],
+                                      status: document.data['status'],
+                                      email: document.data['userID'],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),

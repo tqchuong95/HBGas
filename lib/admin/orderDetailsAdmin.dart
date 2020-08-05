@@ -3,24 +3,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gasgasapp/model/products.dart';
-import 'package:gasgasapp/screens/oder_managerment.dart';
 
 class OrderDetailsAdmin extends StatefulWidget {
   final FirebaseUser userID;
   final int numberId;
   final int orderId;
   final String status;
+  final String email;
 
   OrderDetailsAdmin({
     this.userID,
     this.numberId,
     this.orderId,
     this.status,
+    this.email,
   });
 
   @override
   _OrderDetailsAdmin createState() => _OrderDetailsAdmin(
-      userID: userID, numberId: numberId, orderId: orderId, status: status);
+      userID: userID, numberId: numberId, orderId: orderId, status: status, email: email);
 }
 
 class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
@@ -29,7 +30,7 @@ class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
   final int numberId;
   final int orderId;
   final String status;
-  String email;
+  final String email;
   String address;
   String phone;
   double totalPrice;
@@ -37,7 +38,7 @@ class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
   Products _products = Products();
   DocumentSnapshot _currentDocument;
 
-  _OrderDetailsAdmin({this.userID, this.numberId, this.orderId, this.status});
+  _OrderDetailsAdmin({this.userID, this.numberId, this.orderId, this.status, this.email});
 
   Future<String> getData() async {
     await Firestore.instance
@@ -47,8 +48,7 @@ class _OrderDetailsAdmin extends State<OrderDetailsAdmin> {
         .getDocuments()
         .then((QuerySnapshot snapshot) {
       snapshot.documents.forEach((f) {
-        if (f.data['numberId'] == numberId) {
-          email = f.data['userID'];
+        if (f.data['numberId'] == numberId && f.data['userID'] == email) {
           address = f.data['address'];
           phone = f.data['phone'];
           totalPrice = f.data['total'];
