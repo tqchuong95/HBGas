@@ -327,52 +327,52 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ]),
-          Stack(children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CartProductDetails(
-                          userID: currentUser,
-                        )));
-              },
-            ),
-            Container(
-              child: FutureBuilder<int>(
-                future: getData(currentUser),
-                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container();
-                  } else {
-                    if (snapshot.data > 0) {
-                      return Positioned(
-                          top: 0,
-                          right: 0,
-                          child: new Stack(
-                            children: <Widget>[
-                              Icon(Icons.brightness_1,
-                                  size: 20.0, color: Colors.green[800]),
-                              Positioned(
-                                  top: 4.0,
-                                  right: 5.0,
-                                  child: new Center(
-                                    child: new Text(
-                                      '${snapshot.data}',
-                                      style: new TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  )),
-                            ],
-                          ));
-                    } else
-                      return Container();
-                  }
-                },
-              ),
-            ),
-          ])
+//          Stack(children: <Widget>[
+//            IconButton(
+//              icon: Icon(Icons.shopping_cart),
+//              onPressed: () {
+//                Navigator.of(context).push(MaterialPageRoute(
+//                    builder: (context) => CartProductDetails(
+//                          userID: currentUser,
+//                        )));
+//              },
+//            ),
+//            Container(
+//              child: FutureBuilder<int>(
+//                future: getData(currentUser),
+//                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+//                  if (snapshot.connectionState == ConnectionState.waiting) {
+//                    return Container();
+//                  } else {
+//                    if (snapshot.data > 0) {
+//                      return Positioned(
+//                          top: 0,
+//                          right: 0,
+//                          child: new Stack(
+//                            children: <Widget>[
+//                              Icon(Icons.brightness_1,
+//                                  size: 20.0, color: Colors.green[800]),
+//                              Positioned(
+//                                  top: 4.0,
+//                                  right: 5.0,
+//                                  child: new Center(
+//                                    child: new Text(
+//                                      '${snapshot.data}',
+//                                      style: new TextStyle(
+//                                          color: Colors.white,
+//                                          fontSize: 11.0,
+//                                          fontWeight: FontWeight.w500),
+//                                    ),
+//                                  )),
+//                            ],
+//                          ));
+//                    } else
+//                      return Container();
+//                  }
+//                },
+//              ),
+//            ),
+//          ])
         ],
         // Showing Search Bar
         // actions: <Widget>[

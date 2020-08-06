@@ -156,7 +156,7 @@ class ConfirmOrderPage extends StatelessWidget {
               onPressed: () async {
                 if (_addressController.text != "" &&
                     _phoneController.text != "") {
-                  createRecord();
+//                  createRecord();
                   Fluttertoast.showToast(msg: 'Bạn đã đặt hàng thành công.');
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomePage()));
@@ -218,10 +218,10 @@ class ConfirmOrderPage extends StatelessWidget {
       'phone': _phoneController.text,
       'total': totalPrice,
       'numberId': numberOrder + 1,
-      'orderId' : numberOrder + 1,
-      'status' : 'delivery',
-      'time' : DateTime.now(),
-      'flag' : false,
+      'orderId': numberOrder + 1,
+      'status': 'delivery',
+      'time': DateTime.now(),
+      'flag': false,
     });
 
     await databaseReference
@@ -234,10 +234,10 @@ class ConfirmOrderPage extends StatelessWidget {
       'phone': _phoneController.text,
       'total': totalPrice,
       'numberId': numberOrder + 1,
-      'orderId' : numberOrder + 1,
-      'status' : 'delivery',
-      'time' : DateTime.now(),
-      'flag' : false,
+      'orderId': numberOrder + 1,
+      'status': 'delivery',
+      'time': DateTime.now(),
+      'flag': false,
     });
 
     for (int i = 0; i < amountOfProduct; i++) {
@@ -249,7 +249,7 @@ class ConfirmOrderPage extends StatelessWidget {
           .collection("details")
           .add({
         'orderId': numberOrder + 1,
-        'product' : productId[i],
+        'product': productId[i],
       });
       await databaseReference
           .collection("jjXdZHw6PDTYOAKvv7UZLt7LMcf2")
@@ -260,7 +260,7 @@ class ConfirmOrderPage extends StatelessWidget {
           .add({
         'userID': userID.email,
         'orderId': numberOrder + 1,
-        'product' : productId[i],
+        'product': productId[i],
       });
     }
 
