@@ -45,9 +45,7 @@ class _NotificationScreen extends State<NotificationScreen> {
             children: snapshot.data.documents.map((DocumentSnapshot document) {
               if (document.data['status'] == 'delivered') {
                 timeBuy = document.data['time'];
-                String timeOrder = DateFormat.d().format(
-                    DateTime.now().subtract(
-                        Duration(seconds: timeBuy.seconds)));
+                int timeOrder = DateTime.now().difference(timeBuy.toDate()).inDays;
                 return Card(
                   elevation: 8.0,
                   child: Padding(

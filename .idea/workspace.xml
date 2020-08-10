@@ -4,8 +4,7 @@
     <list default="true" id="b5f66628-af3f-47e3-b150-120921e69205" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/homepage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/payment_product.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/payment_product.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/notificationScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/notificationScreen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,11 +56,11 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\Flutter\gasgas\gasgasapp\ios\Runner" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Flutter\gasgas\gasgasapp\lib\screens" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Flutter\gasgas\gasgasapp\ios\Runner" />
     </key>
   </component>
   <component name="RunManager">
@@ -113,30 +112,30 @@
     </state>
     <state x="363" y="97" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1366.738/1366.-165.1920.1050@0.0.1366.738" timestamp="1593827503393" />
     <state x="363" y="97" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1366.738@0.0.1366.738" timestamp="1596462994993" />
-    <state width="1323" height="234" key="GridCell.Tab.0.bottom" timestamp="1596724262657">
+    <state width="1323" height="234" key="GridCell.Tab.0.bottom" timestamp="1597069556705">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state width="1323" height="208" key="GridCell.Tab.0.bottom/0.0.1366.738/1366.-165.1920.1050@0.0.1366.738" timestamp="1593224725664" />
     <state width="1877" height="301" key="GridCell.Tab.0.bottom/0.0.1366.738/1366.-165.1920.1050@1366.-165.1920.1050" timestamp="1594461069227" />
-    <state width="1323" height="234" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1596724262657" />
-    <state width="1323" height="234" key="GridCell.Tab.0.center" timestamp="1596724262657">
+    <state width="1323" height="234" key="GridCell.Tab.0.bottom/0.0.1366.738@0.0.1366.738" timestamp="1597069556705" />
+    <state width="1323" height="234" key="GridCell.Tab.0.center" timestamp="1597069556705">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state width="1323" height="208" key="GridCell.Tab.0.center/0.0.1366.738/1366.-165.1920.1050@0.0.1366.738" timestamp="1593224725664" />
     <state width="1877" height="301" key="GridCell.Tab.0.center/0.0.1366.738/1366.-165.1920.1050@1366.-165.1920.1050" timestamp="1594461069227" />
-    <state width="1323" height="234" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1596724262657" />
-    <state width="1323" height="234" key="GridCell.Tab.0.left" timestamp="1596724262657">
+    <state width="1323" height="234" key="GridCell.Tab.0.center/0.0.1366.738@0.0.1366.738" timestamp="1597069556705" />
+    <state width="1323" height="234" key="GridCell.Tab.0.left" timestamp="1597069556704">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state width="1323" height="208" key="GridCell.Tab.0.left/0.0.1366.738/1366.-165.1920.1050@0.0.1366.738" timestamp="1593224725664" />
     <state width="1877" height="301" key="GridCell.Tab.0.left/0.0.1366.738/1366.-165.1920.1050@1366.-165.1920.1050" timestamp="1594461069227" />
-    <state width="1323" height="234" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1596724262657" />
-    <state width="1323" height="234" key="GridCell.Tab.0.right" timestamp="1596724262657">
+    <state width="1323" height="234" key="GridCell.Tab.0.left/0.0.1366.738@0.0.1366.738" timestamp="1597069556704" />
+    <state width="1323" height="234" key="GridCell.Tab.0.right" timestamp="1597069556705">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state width="1323" height="208" key="GridCell.Tab.0.right/0.0.1366.738/1366.-165.1920.1050@0.0.1366.738" timestamp="1593224725664" />
     <state width="1877" height="301" key="GridCell.Tab.0.right/0.0.1366.738/1366.-165.1920.1050@1366.-165.1920.1050" timestamp="1594461069227" />
-    <state width="1323" height="234" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1596724262657" />
+    <state width="1323" height="234" key="GridCell.Tab.0.right/0.0.1366.738@0.0.1366.738" timestamp="1597069556705" />
     <state x="184" y="11" key="SettingsEditor" timestamp="1591409839339">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
@@ -145,11 +144,11 @@
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="327" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.738@0.0.1366.738" timestamp="1596639997102" />
-    <state x="467" y="181" width="607" height="536" key="find.popup" timestamp="1596648403144">
+    <state x="467" y="181" width="607" height="536" key="find.popup" timestamp="1597068181778">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
     <state x="2022" y="92" width="737" height="606" key="find.popup/0.0.1366.738/1366.-165.1920.1050@1366.-165.1920.1050" timestamp="1594439469819" />
-    <state x="467" y="181" width="607" height="536" key="find.popup/0.0.1366.738@0.0.1366.738" timestamp="1596648403144" />
+    <state x="467" y="181" width="607" height="536" key="find.popup/0.0.1366.738@0.0.1366.738" timestamp="1597068181778" />
     <state x="460" y="82" key="git4idea.branch.GitSmartOperationDialog" timestamp="1596471828917">
       <screen x="0" y="0" width="1366" height="738" />
     </state>
