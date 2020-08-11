@@ -156,7 +156,7 @@ class ConfirmOrderPage extends StatelessWidget {
               onPressed: () async {
                 if (_addressController.text != "" &&
                     _phoneController.text != "") {
-//                  createRecord();
+                  createRecord();
                   Fluttertoast.showToast(msg: 'Bạn đã đặt hàng thành công.');
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => HomePage()));
